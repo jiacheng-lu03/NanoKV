@@ -51,6 +51,10 @@ Original end-to-end latency: **132.40 s**.
 | NanoKV | 20.81 | 0.6352 | 0.2156 | 0.8252 | 1.46 | 14.18× | 0.93× |
 | NanoKV-Fast | 20.68 | 0.6314 | 0.2183 | 0.8249 | 1.78 | 11.62× | 0.98× |
 
+## NanoKV latency overhead
+
+At the main-table 32× setting, NanoKV adds less than 10% end-to-end latency relative to Original on each of the three backbones. From the rounded speedup values above, `(1 / speedup - 1) × 100` gives approximately 4.2% on HY-WorldPlay, 7.5% on LingBot-World 2.0, and 8.7% on Matrix-Game 3.5. This describes the standard NanoKV configuration; NanoKV-Fast timings are reported separately.
+
 ## NanoKV-Fast attention computation
 
 The following values are arithmetic savings relative to NanoKV at nominal 32× compression, rather than measured latency reductions. The all-attention saving equals the historical share multiplied by the saving within history.
