@@ -1,5 +1,6 @@
-<h1 align="center">NanoKV</h1>
-<h3 align="center">High-Ratio KV Cache Compression for Autoregressive Video Generation</h3>
+<h1 align="center">NanoKV: High-Ratio KV Cache Compression for Autoregressive Video Generation</h1>
+
+<h3 align="center">Generation-aware KV compression with a frozen video backbone</h3>
 
 <p align="center">
   Jiacheng Lu<sup>1</sup> · Haoyi Zhu<sup>2</sup> · Sipei Yi<sup>1</sup> ·
@@ -8,17 +9,11 @@
 </p>
 
 <p align="center">
-  <a href="https://jiacheng-lu03.github.io/NanoKV/"><img src="https://img.shields.io/badge/Project_Page-2563EB?style=for-the-badge" alt="Project page"></a>&nbsp;
-  <a href="docs/SETUP.md"><img src="https://img.shields.io/badge/Installation-0F766E?style=for-the-badge&amp;logo=python&amp;logoColor=white" alt="Installation guide"></a>&nbsp;
-  <a href="train/README.md"><img src="https://img.shields.io/badge/Training-EA580C?style=for-the-badge&amp;logo=pytorch&amp;logoColor=white" alt="Training guide"></a>&nbsp;
-  <a href="infer/README.md"><img src="https://img.shields.io/badge/Inference-7C3AED?style=for-the-badge" alt="Inference guide"></a>
-</p>
-
-<p align="center">
-  <a href="#quick-start"><b>🚀 Quick Start</b></a> &nbsp; | &nbsp;
-  <a href="#method"><b>🧩 Method</b></a> &nbsp; | &nbsp;
-  <a href="#results"><b>📊 Results</b></a> &nbsp; | &nbsp;
-  <a href="#models"><b>🎬 Models</b></a> &nbsp; | &nbsp;
+  <a href="https://jiacheng-lu03.github.io/NanoKV/"><b>🌐 Project Page</b></a> |
+  <a href="#quick-start"><b>🚀 Quick Start</b></a> |
+  <a href="train/README.md"><b>🏋️ Training</b></a> |
+  <a href="infer/README.md"><b>🎥 Inference</b></a> |
+  <a href="#results"><b>📊 Results</b></a> |
   <a href="#citation"><b>📖 Citation</b></a>
 </p>
 
