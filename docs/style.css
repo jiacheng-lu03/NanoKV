@@ -299,3 +299,5 @@ footer,footer div{font-size:.8rem;line-height:1.55}
 #demos{max-width:1440px;padding-inline:clamp(22px,3vw,48px)}
 #demos .section-heading{max-width:100%}
 .comparison-videos{gap:24px}
+
+.metrics-wrap{max-width:1440px;padding-inline:clamp(22px,3vw,48px)}
