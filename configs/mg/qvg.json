@@ -1,0 +1,8 @@
+{
+  "env": {
+    "MG35_KVCODEC_MODE": "qvg",
+    "MG35_QVG_ROOT": "${QVG_ROOT}",
+    "QVG_ROOT": "${QVG_ROOT}"
+  },
+  "args": []
+}

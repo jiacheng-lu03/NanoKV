@@ -1,0 +1,38 @@
+{
+  "env": {
+    "OMP_NUM_THREADS": "56",
+    "MKL_NUM_THREADS": "56"
+  },
+  "args": [
+    "--task",
+    "i2v-A14B",
+    "--infer_mode",
+    "causal_fast",
+    "--size",
+    "480*832",
+    "--frame_num",
+    "125",
+    "--chunk_size",
+    "4",
+    "--base_seed",
+    "42",
+    "--t5_cpu",
+    "--offload_model",
+    "true",
+    "--local_attn_size",
+    "18",
+    "--sink_size",
+    "6",
+    "--kvtc_enable",
+    "--kvtc_group_size",
+    "8",
+    "--kvtc_sink_tokens",
+    "4",
+    "--kvtc_window_tokens",
+    "128",
+    "--kvtc_root_k",
+    "${KVTC_ARTIFACTS}/k",
+    "--kvtc_root_v",
+    "${KVTC_ARTIFACTS}/v"
+  ]
+}

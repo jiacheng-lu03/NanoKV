@@ -1,0 +1,7 @@
+{
+  "env": {
+    "MG35_KVCODEC_MODE": "worldplay_kvtc",
+    "MG35_KVTC_ARTIFACT_DIR": "${KVTC_ARTIFACTS}"
+  },
+  "args": []
+}

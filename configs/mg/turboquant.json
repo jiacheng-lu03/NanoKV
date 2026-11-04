@@ -1,0 +1,6 @@
+{
+  "env": {
+    "MG35_KVCODEC_MODE": "turboquant"
+  },
+  "args": []
+}

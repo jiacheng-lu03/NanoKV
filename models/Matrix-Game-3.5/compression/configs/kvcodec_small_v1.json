@@ -1,0 +1,35 @@
+{
+  "format": "mg35_kvcodec_small_experiment_v1",
+  "created": "2026-08-22",
+  "model": "Matrix-Game-3.5-Distilled first-person",
+  "checkpoint": "checkpoints/Matrix-Game-3.5-Distilled/first-person.safetensors",
+  "inference_config": "configs/infer_distilled.yaml",
+  "seed": 3407,
+  "pca_rank": 768,
+  "latent_bits": 4,
+  "semantic_clusters": 64,
+  "semantic_iterations": 2,
+  "splits": {
+    "train": ["first_person/case_0", "first_person/case_1", "first_person/case_2", "first_person/case_3"],
+    "dev": ["first_person/case_4", "first_person/case_5"],
+    "heldout": ["first_person/case_6", "first_person/case_7"]
+  },
+  "sampling": {
+    "rows_per_cache_write": 1024,
+    "maximum_rows_per_scene_layer_target": 4096,
+    "targets": ["k", "v", "k_c64", "v_c64"],
+    "selection": "deterministic_evenly_spaced"
+  },
+  "method_ladder": [
+    "clean",
+    "pca768_int4",
+    "c64_pca768_int4",
+    "c64_pca768_int4_v_qat",
+    "c64_pca768_int4_v_qat_k_a1"
+  ],
+  "baseline": {
+    "name": "KVTC",
+    "uses_same_train_dev_heldout_split": true,
+    "shares_no_codec_weights_with_method": true
+  }
+}

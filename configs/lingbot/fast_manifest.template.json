@@ -1,0 +1,465 @@
+{
+  "format": "codec_native_manifest_v1",
+  "model": "lingbot-world-v2",
+  "codec_operator_sha256": "b014909923f657b8019203bd581da77e8c6e0880bf7aa80b3eadfbf6a433f458",
+  "policy": {
+    "sink_native_frames": 1,
+    "recent_native_frames": 2,
+    "anchor_stride": 0,
+    "native_prefix_chunks": 3,
+    "native_commit": false
+  },
+  "layer_policy": {
+    "11": {
+      "native_prefix_chunks": 8
+    }
+  },
+  "a100_runtime_cli_flags": [
+    "--triton-rope",
+    "--fused-unpack",
+    "--fused-merge",
+    "--cache-read-bias",
+    "--native-triton-rope",
+    "--preload-readers"
+  ],
+  "runtime_optimizations": {
+    "fused_finish": true,
+    "batch_read": true,
+    "contiguous_slices": true,
+    "center_cache": true,
+    "joined_centers": true
+  },
+  "operator": "${ARTIFACTS}/codec.pt",
+  "layers": {
+    "0:0": {
+      "sha256": "b091eb45d6e307c4a1b5b99ea96b8df3072ac98ce9c84cae507a309b568f02e7",
+      "calibrated": true,
+      "widths": [
+        32,
+        64,
+        96
+      ],
+      "path": "${ARTIFACTS}/readers/layer_00.pt"
+    },
+    "0:1": {
+      "sha256": "81e67bc08757e3f6e81ae38638d4f4547122912c207ec7d18b35cd5f143c674a",
+      "calibrated": true,
+      "widths": [
+        32,
+        64
+      ],
+      "path": "${ARTIFACTS}/readers/layer_01.pt"
+    },
+    "0:2": {
+      "sha256": "58ff0e3ab22e412e1ab9fc36e25e9002061764e5911c2dc387de29ca380cc306",
+      "calibrated": true,
+      "widths": [
+        32,
+        64,
+        96,
+        128
+      ],
+      "path": "${ARTIFACTS}/readers/layer_02.pt"
+    },
+    "0:3": {
+      "sha256": "5008cbc62e025716c735e217e17fba63bacb39cd591e3420f0deff409d0796cd",
+      "calibrated": true,
+      "widths": [
+        32,
+        64,
+        96,
+        128
+      ],
+      "path": "${ARTIFACTS}/readers/layer_03.pt"
+    },
+    "0:4": {
+      "sha256": "575da0a0b73e12d118df56c09422e640aea10cdb7c48b71b1bcce26cba3feb5e",
+      "calibrated": true,
+      "widths": [
+        32,
+        64,
+        96,
+        128
+      ],
+      "path": "${ARTIFACTS}/readers/layer_04.pt"
+    },
+    "0:5": {
+      "sha256": "d1864cfaad5dd53f882fab4ddd7679b42b4bfec4451aa5eb4b825e5ae4131403",
+      "calibrated": true,
+      "widths": [
+        32,
+        64,
+        96,
+        128
+      ],
+      "path": "${ARTIFACTS}/readers/layer_05.pt"
+    },
+    "0:6": {
+      "sha256": "6500462296c06add27fa5e12232f7126310f897d0697a741650e60dc6ae197f5",
+      "calibrated": true,
+      "widths": [
+        32,
+        64,
+        96,
+        128
+      ],
+      "path": "${ARTIFACTS}/readers/layer_06.pt"
+    },
+    "0:7": {
+      "sha256": "8438466ebd084b41d21a0dc00388ed5b15592eb0e8d2abafc507fb8592ecc599",
+      "calibrated": true,
+      "widths": [
+        32,
+        64,
+        96,
+        128
+      ],
+      "path": "${ARTIFACTS}/readers/layer_07.pt"
+    },
+    "0:8": {
+      "sha256": "6985ab62f4257c963785e05e7d9d6d0fd16dfa547957ffe4ca7d611230f30404",
+      "calibrated": true,
+      "widths": [
+        32,
+        64,
+        96,
+        128
+      ],
+      "path": "${ARTIFACTS}/readers/layer_08.pt"
+    },
+    "0:9": {
+      "sha256": "c29ce51e5e0405bb9033e101ba73e2df23b3c22b7fdf07d7746a3c672e70f268",
+      "calibrated": true,
+      "widths": [
+        32,
+        64,
+        96,
+        128
+      ],
+      "path": "${ARTIFACTS}/readers/layer_09.pt"
+    },
+    "0:10": {
+      "sha256": "dd5c58658508d8fcbdc8d8295da76498a409f4f16e91b3fd112267bf0aadcda0",
+      "calibrated": true,
+      "widths": [
+        32,
+        64,
+        96,
+        128
+      ],
+      "path": "${ARTIFACTS}/readers/layer_10.pt"
+    },
+    "0:11": {
+      "sha256": "b834bf92acb32a2f7d82d7b4dffbbe7eb29d250dff6506b12657ec59180553c5",
+      "calibrated": true,
+      "widths": [
+        32,
+        64,
+        96,
+        128
+      ],
+      "path": "${ARTIFACTS}/readers/layer_11.pt"
+    },
+    "0:12": {
+      "sha256": "404618f8fce47778c5ed103bbdb581c946f9716813ad499bcf17f6288482fa05",
+      "calibrated": true,
+      "widths": [
+        32,
+        64,
+        96,
+        128
+      ],
+      "path": "${ARTIFACTS}/readers/layer_12.pt"
+    },
+    "0:13": {
+      "sha256": "faa444c0903cad0c60d16a56e759d71fb9ea703f9a6d3f841e7c6bb3d75bcae7",
+      "calibrated": true,
+      "widths": [
+        32,
+        64,
+        96,
+        128
+      ],
+      "path": "${ARTIFACTS}/readers/layer_13.pt"
+    },
+    "0:14": {
+      "sha256": "9368ad98e797ff50e1bd7bf428dd3343d7fad8c4cb245e6ca548121dae1106e0",
+      "calibrated": true,
+      "widths": [
+        32,
+        64,
+        96,
+        128
+      ],
+      "path": "${ARTIFACTS}/readers/layer_14.pt"
+    },
+    "0:15": {
+      "sha256": "5991126a817cf3c1459df5e4258285db5a51cb6912b008cfd55479e0436446e7",
+      "calibrated": true,
+      "widths": [
+        32,
+        64,
+        96,
+        128
+      ],
+      "path": "${ARTIFACTS}/readers/layer_15.pt"
+    },
+    "0:16": {
+      "sha256": "7d3b9f121aaf16885c1925a286cc5bd8ed6e5c4fc2d4023161fb35bafeffb6e9",
+      "calibrated": true,
+      "widths": [
+        32,
+        64,
+        96,
+        128
+      ],
+      "path": "${ARTIFACTS}/readers/layer_16.pt"
+    },
+    "0:17": {
+      "sha256": "5dffd2658394b3fa469f62e378765163002feb58b7e4898c13a16d068790328c",
+      "calibrated": true,
+      "widths": [
+        32,
+        64,
+        96,
+        128
+      ],
+      "path": "${ARTIFACTS}/readers/layer_17.pt"
+    },
+    "0:18": {
+      "sha256": "80af1e87152d0ecb866a5134af9ef94c3d6be0e23c22e10b364c3730188f7516",
+      "calibrated": true,
+      "widths": [
+        32,
+        64,
+        96,
+        128
+      ],
+      "path": "${ARTIFACTS}/readers/layer_18.pt"
+    },
+    "0:19": {
+      "sha256": "42510e80dc15252d5ab57160279c60c4fafb6cdcae1413b19a11b4aee07cd0ff",
+      "calibrated": true,
+      "widths": [
+        32,
+        64,
+        96,
+        128
+      ],
+      "path": "${ARTIFACTS}/readers/layer_19.pt"
+    },
+    "0:20": {
+      "sha256": "18fb67199980a46ba32513ff8ec2ee50655c1e07160e9eb8ab395901ca44c412",
+      "calibrated": true,
+      "widths": [
+        32,
+        64,
+        96,
+        128
+      ],
+      "path": "${ARTIFACTS}/readers/layer_20.pt"
+    },
+    "0:21": {
+      "sha256": "9f60d613223e2665a4ab762ad6b1fdb273ee57c479d62b565b4e1036014543aa",
+      "calibrated": true,
+      "widths": [
+        32,
+        64,
+        96,
+        128
+      ],
+      "path": "${ARTIFACTS}/readers/layer_21.pt"
+    },
+    "0:22": {
+      "sha256": "605cd26aaa5105167ef07a7beb2e1796edfb32af5c1fc6face55c33473d6d84a",
+      "calibrated": true,
+      "widths": [
+        32,
+        64,
+        96,
+        128
+      ],
+      "path": "${ARTIFACTS}/readers/layer_22.pt"
+    },
+    "0:23": {
+      "sha256": "8b490f26fdb2669db328d7566520f383b5f1a984250162b29262118ccf17d2d0",
+      "calibrated": true,
+      "widths": [
+        32,
+        64,
+        96,
+        128
+      ],
+      "path": "${ARTIFACTS}/readers/layer_23.pt"
+    },
+    "0:24": {
+      "sha256": "d884b475e5dafe503b565d4febc6380a9619d4a4125826b896b6d30c4648f3ef",
+      "calibrated": true,
+      "widths": [
+        32,
+        64,
+        96,
+        128
+      ],
+      "path": "${ARTIFACTS}/readers/layer_24.pt"
+    },
+    "0:25": {
+      "sha256": "701ffda6b4b6da02b1afdec2eb9e89a227b53b602f324200d6d3e8ef9937ba37",
+      "calibrated": true,
+      "widths": [
+        32,
+        64,
+        96,
+        128
+      ],
+      "path": "${ARTIFACTS}/readers/layer_25.pt"
+    },
+    "0:26": {
+      "sha256": "5287b546fc4aa5a4d3c4ca8d6d2afcede3bf460b85cc9547167d307032a7fc2b",
+      "calibrated": true,
+      "widths": [
+        32,
+        64,
+        96,
+        128
+      ],
+      "path": "${ARTIFACTS}/readers/layer_26.pt"
+    },
+    "0:27": {
+      "sha256": "df736038bbc4951f3bc1e17bb55cf76dc3626046d4372de1a8ec800fc391b3b6",
+      "calibrated": true,
+      "widths": [
+        32,
+        64,
+        96,
+        128
+      ],
+      "path": "${ARTIFACTS}/readers/layer_27.pt"
+    },
+    "0:28": {
+      "sha256": "932ff0aac75edc34363767f1af934e2d4ed49619745465c3e67238000384bda7",
+      "calibrated": true,
+      "widths": [
+        32,
+        64,
+        96,
+        128
+      ],
+      "path": "${ARTIFACTS}/readers/layer_28.pt"
+    },
+    "0:29": {
+      "sha256": "8afb2b7954535cd702b26798f3ee2602e6cea410b40b34343111cc1b3ca89180",
+      "calibrated": true,
+      "widths": [
+        32,
+        64,
+        96
+      ],
+      "path": "${ARTIFACTS}/readers/layer_29.pt"
+    },
+    "0:30": {
+      "sha256": "f63f338c9e4a79ebc45e7ac90e4e1939e9304efa470a0443375d0cab5f6376ff",
+      "calibrated": true,
+      "widths": [
+        32,
+        64,
+        96,
+        128
+      ],
+      "path": "${ARTIFACTS}/readers/layer_30.pt"
+    },
+    "0:31": {
+      "sha256": "15720c244ae6f2c763cffb0d083752c45edada686f9d0f2ac8c5a151f28f2a9f",
+      "calibrated": true,
+      "widths": [
+        32,
+        64,
+        96,
+        128
+      ],
+      "path": "${ARTIFACTS}/readers/layer_31.pt"
+    },
+    "0:32": {
+      "sha256": "5bd8b4201e0aad26b84892bbfd0dcf42d69df0696bee70b9ac331f16c3588550",
+      "calibrated": true,
+      "widths": [
+        32,
+        96
+      ],
+      "path": "${ARTIFACTS}/readers/layer_32.pt"
+    },
+    "0:33": {
+      "sha256": "0a9f0ae398783cd8ba6801928aada77f5fc7bf43b5f464fac3d42ccecb8bf6ad",
+      "calibrated": true,
+      "widths": [
+        32,
+        64
+      ],
+      "path": "${ARTIFACTS}/readers/layer_33.pt"
+    },
+    "0:34": {
+      "sha256": "3ffae50a77acc3c6c911447418467f6bf7e53ecd31e90f2824b1fb53155fe261",
+      "calibrated": true,
+      "widths": [
+        32,
+        64,
+        96,
+        128
+      ],
+      "path": "${ARTIFACTS}/readers/layer_34.pt"
+    },
+    "0:35": {
+      "sha256": "2e17aef784cc91bab1722f8573a7cf8398011d44615f7170d43c564675519f41",
+      "calibrated": true,
+      "widths": [
+        32,
+        96,
+        128
+      ],
+      "path": "${ARTIFACTS}/readers/layer_35.pt"
+    },
+    "0:36": {
+      "sha256": "03a30bc9cdff10e29203d8a1a80225e2a5b2efd6f6c5ceeaccf13e0210b3141c",
+      "calibrated": true,
+      "widths": [
+        32,
+        64,
+        96,
+        128
+      ],
+      "path": "${ARTIFACTS}/readers/layer_36.pt"
+    },
+    "0:37": {
+      "sha256": "e4873bc750b2219226a948b5165a1a68c38acf0c37329283b0d7d28f322b1932",
+      "calibrated": true,
+      "widths": [
+        32,
+        64,
+        96,
+        128
+      ],
+      "path": "${ARTIFACTS}/readers/layer_37.pt"
+    },
+    "0:38": {
+      "sha256": "d7548e2fb988786e804d3b539e7ffd67d9fcc37ce6031d7bf24452b1f3565db7",
+      "calibrated": true,
+      "widths": [
+        32,
+        64,
+        96
+      ],
+      "path": "${ARTIFACTS}/readers/layer_38.pt"
+    },
+    "0:39": {
+      "sha256": "a093807d3578a219215c0f6ac0c85f56c4b44ad54e99152ff6566537493d7054",
+      "calibrated": true,
+      "widths": [
+        32,
+        64,
+        96,
+        128
+      ],
+      "path": "${ARTIFACTS}/readers/layer_39.pt"
+    }
+  }
+}

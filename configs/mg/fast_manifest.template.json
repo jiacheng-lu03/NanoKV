@@ -1,0 +1,164 @@
+{
+  "format": "codec_native_manifest_v1",
+  "model": "matrix-game-3.5",
+  "codec_operator_sha256": "f24431b121d49290218a0144df28bd98fec8f1d84b0e6711e7dcd25d098156b4",
+  "policy": {
+    "recent_native_frames": 5,
+    "anchor_stride": 0,
+    "sink_native_frames": 0,
+    "low_native": "none"
+  },
+  "operator": "${ARTIFACTS}/codec.pt",
+  "layers": {
+    "0:0": {
+      "sha256": "36593e73cbab40e12aab77881062a0ab18b291bdeddde1b65b319790a4762975",
+      "calibrated": false,
+      "path": "${ARTIFACTS}/readers/layer_00.pt"
+    },
+    "0:1": {
+      "sha256": "c94daf9a8cca06cb25a73abc72e7d19308561572ed0132993e629d3f0cf9c338",
+      "calibrated": false,
+      "path": "${ARTIFACTS}/readers/layer_01.pt"
+    },
+    "0:2": {
+      "sha256": "6be90c402aaeec378647b12734a5d1eac05f04d88a77ba3f7b0a182866cce8f8",
+      "calibrated": false,
+      "path": "${ARTIFACTS}/readers/layer_02.pt"
+    },
+    "0:3": {
+      "sha256": "8e65fe6d972443448493a5c2a3edba83230e760b8ae75cde68d8b3942c0b76fb",
+      "calibrated": false,
+      "path": "${ARTIFACTS}/readers/layer_03.pt"
+    },
+    "0:4": {
+      "sha256": "945a99f0e9e0317e1c868428604cc7a3ff9c5ddda0571ea12ada2c1b1375aa9e",
+      "calibrated": false,
+      "path": "${ARTIFACTS}/readers/layer_04.pt"
+    },
+    "0:5": {
+      "sha256": "b9ddd40ca93406f81b06422ee4d2ec292c372ac696a747a441efd67b6806cb67",
+      "calibrated": false,
+      "path": "${ARTIFACTS}/readers/layer_05.pt"
+    },
+    "0:6": {
+      "sha256": "e11d2b058afb6534982cd9eaaa023f3015b6e6e75ba1f1a90be6a22140e6768d",
+      "calibrated": false,
+      "path": "${ARTIFACTS}/readers/layer_06.pt"
+    },
+    "0:7": {
+      "sha256": "b380e28946b64b165d96a8dea958f03c52416080ccc99feebe578c800d86d373",
+      "calibrated": false,
+      "path": "${ARTIFACTS}/readers/layer_07.pt"
+    },
+    "0:8": {
+      "sha256": "f992d5aa8a6aea139f5ea61d5ed85ba8cfe68cfa6abcdb1f827604645cf38d87",
+      "calibrated": false,
+      "path": "${ARTIFACTS}/readers/layer_08.pt"
+    },
+    "0:9": {
+      "sha256": "141fb5cd5c6cdb73b0b7d84d9c2ae5ef6c746cc8f34c1fe7359aa8ba7cca6ed9",
+      "calibrated": false,
+      "path": "${ARTIFACTS}/readers/layer_09.pt"
+    },
+    "0:10": {
+      "sha256": "38913d0cde9b75f36ecc315d6942bbe8bc534f59adf65a16b0a904eea790c141",
+      "calibrated": false,
+      "path": "${ARTIFACTS}/readers/layer_10.pt"
+    },
+    "0:11": {
+      "sha256": "6d870deb7cad7a39304c22eb054243adcab584986f9e307f543d7ef37362eb3a",
+      "calibrated": false,
+      "path": "${ARTIFACTS}/readers/layer_11.pt"
+    },
+    "0:12": {
+      "sha256": "f87d9f5883ab7fac6cae7ced114dc5724302b3c2b967ad2f838ea7975efffc51",
+      "calibrated": false,
+      "path": "${ARTIFACTS}/readers/layer_12.pt"
+    },
+    "0:13": {
+      "sha256": "b3ba011274a20ca5167e2c782c67bacc014472df2f26ea6135b41534b4640084",
+      "calibrated": false,
+      "path": "${ARTIFACTS}/readers/layer_13.pt"
+    },
+    "0:14": {
+      "sha256": "78d36b6f61f7e430fa2cdc382ff60f8635c6327381330725fa9da70d58bd8991",
+      "calibrated": false,
+      "path": "${ARTIFACTS}/readers/layer_14.pt"
+    },
+    "0:15": {
+      "sha256": "d793381eceb1670b7aec3586884ac7c1dd412548ba41264cd02ff850093bb482",
+      "calibrated": false,
+      "path": "${ARTIFACTS}/readers/layer_15.pt"
+    },
+    "0:16": {
+      "sha256": "ef6b08d3928384bdb334ab6de8b85dd39e7663284920da3819ccf4a4b6cb0b44",
+      "calibrated": false,
+      "path": "${ARTIFACTS}/readers/layer_16.pt"
+    },
+    "0:17": {
+      "sha256": "5a380bf93c4265c7e72ddd9c55ab2af58cae62b47143a92558fc30a4c24b5f56",
+      "calibrated": false,
+      "path": "${ARTIFACTS}/readers/layer_17.pt"
+    },
+    "0:18": {
+      "sha256": "5c9b65bc8dfd77c9f19c822cc9d4e201a7f6e7f2ac10738d2ad848dff9c40a28",
+      "calibrated": false,
+      "path": "${ARTIFACTS}/readers/layer_18.pt"
+    },
+    "0:19": {
+      "sha256": "9519ea8aeb6fe83bbd3f6aed5964e41e7d3a6bebc2a8072939cb8d3e170ecfe9",
+      "calibrated": false,
+      "path": "${ARTIFACTS}/readers/layer_19.pt"
+    },
+    "0:20": {
+      "sha256": "3040417d0c51e1966d5c00d9ac60e9db75b0ff8ad9de78460836d816b52fa457",
+      "calibrated": false,
+      "path": "${ARTIFACTS}/readers/layer_20.pt"
+    },
+    "0:21": {
+      "sha256": "9d891443a33b81d3e59976143cb3c7f159e3eb43a741a9204f57279203b4274d",
+      "calibrated": false,
+      "path": "${ARTIFACTS}/readers/layer_21.pt"
+    },
+    "0:22": {
+      "sha256": "3fc6f311d0c38c4777191992a92551f2a0c6fd50c76e72453aad55f2e9594c44",
+      "calibrated": false,
+      "path": "${ARTIFACTS}/readers/layer_22.pt"
+    },
+    "0:23": {
+      "sha256": "e6ed78e43f87ab05d227bfdf3bf0c3ca096fc7fdefa3741fa3f60cd0f77e5a27",
+      "calibrated": false,
+      "path": "${ARTIFACTS}/readers/layer_23.pt"
+    },
+    "0:24": {
+      "sha256": "c84e666417d09d75e75bbe28571f784e646b520b401bd9882d1c21419d32c790",
+      "calibrated": false,
+      "path": "${ARTIFACTS}/readers/layer_24.pt"
+    },
+    "0:25": {
+      "sha256": "841fe07773b820a046808e440b263409734e3f69099558e7a8b73a6b6e933809",
+      "calibrated": false,
+      "path": "${ARTIFACTS}/readers/layer_25.pt"
+    },
+    "0:26": {
+      "sha256": "f519ecccf6b5c4aedbd69dafc1d7ff6f6e320edbee6d0a36ec65efc82ce49508",
+      "calibrated": false,
+      "path": "${ARTIFACTS}/readers/layer_26.pt"
+    },
+    "0:27": {
+      "sha256": "62dbaa6ca612a577e841bf728edb7bcfcd274c3452f213397e00f0a52a68a758",
+      "calibrated": false,
+      "path": "${ARTIFACTS}/readers/layer_27.pt"
+    },
+    "0:28": {
+      "sha256": "fba9ccdfca7f15801db6c2dcd5731b4051f226633917bbaf0ee99fe115e92389",
+      "calibrated": false,
+      "path": "${ARTIFACTS}/readers/layer_28.pt"
+    },
+    "0:29": {
+      "sha256": "47eed5ba9aa624fff03482f37f29eaa122cf99f1c92c383ebc8fdf74cdb919ad",
+      "calibrated": false,
+      "path": "${ARTIFACTS}/readers/layer_29.pt"
+    }
+  }
+}
