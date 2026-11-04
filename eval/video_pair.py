@@ -6,5 +6,5 @@ import sys
 
 if __name__ == '__main__':
     root=Path(__file__).resolve().parents[1]
-    script=root/'models/HY-WorldPlay/compression/scripts/evaluate_video_pair_direct.py'
+    script=root/'models/HY-WorldPlay/compression/scripts/evaluate_video_pair.py'
     raise SystemExit(subprocess.call([sys.executable,str(script),*sys.argv[1:]],env=os.environ.copy()))

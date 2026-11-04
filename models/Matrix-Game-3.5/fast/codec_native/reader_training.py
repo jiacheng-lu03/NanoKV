@@ -1,7 +1,6 @@
-"""Local codec-teacher distillation on original train samples; held-out calls reported.
+"""Reader initialization, tensor helpers, and sampled-attention fitting.
 
-Only static reader/query/lift matrices are learned. Native DiT and codec are read-only.
-This is a development fitter, not evidence of closed-loop quality by itself.
+Only reader/query/lift matrices are learned; the DiT and codec remain frozen.
 """
 import argparse, copy, json, time
 from pathlib import Path
@@ -9,7 +8,7 @@ import torch
 import torch.nn.functional as F
 from codec_native.core import ReaderGroup, rope_selected, camera_selected
 from codec_native.reader_tools import initialize_reader_state
-from codec_native.build_initial_readers import OP, sha
+from codec_native.artifact_utils import OP, sha
 
 def device_tree(x,device):
     if torch.is_tensor(x):return x.to(device)

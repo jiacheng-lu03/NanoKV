@@ -416,7 +416,7 @@ def _schedule_predecode_for_layer(layer_cache, dtype, device):
         and v_obj.get("layerwise_ae")
     ):
         return
-    from hyvideo.models.transformers.modules.kv_ae3d import maybe_decompress
+    from hyvideo.models.transformers.modules.kv_codec_training import maybe_decompress
 
     stream = layer_cache.get("_layerwise_predecode_stream")
     if stream is None:
@@ -472,7 +472,7 @@ def _restore_pre_position_vision_kv(layer_cache, return_branches=False):
         apply_rotary_emb,
         apply_rotary_emb_one,
     )
-    from hyvideo.models.transformers.modules.kv_ae3d import maybe_decompress
+    from hyvideo.models.transformers.modules.kv_codec_training import maybe_decompress
     from hyvideo.prope.camera_rope import (
         _prepare_apply_fns_all_dim,
         prope_qkv,

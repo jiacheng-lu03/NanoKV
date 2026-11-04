@@ -80,7 +80,7 @@ def add_projected_centers_(rows,table,ids):
 
 
 def main():
-    from diffsynth.models.worldplay_kv_codec import _pack_int4,_unpack_int4
+    from diffsynth.models.nanokv_codec import _pack_int4,_unpack_int4
     torch.manual_seed(11)
     for batch in (1,2):
         for n in (880,2640):

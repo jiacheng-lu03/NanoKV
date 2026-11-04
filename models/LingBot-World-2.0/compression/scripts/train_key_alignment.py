@@ -218,14 +218,14 @@ def main() -> None:
         stage = args.output_root / f"stage_after_group_{group_id:02d}.pt"
         inputs = [rolling] if cumulative is None else [cumulative, rolling]
         subprocess.run([
-            str(args.python), str(ROOT / "scripts/merge_key.py"),
+            str(args.python), str(ROOT / "scripts/merge_key_decoders.py"),
             "--inputs", *map(str, inputs), "--output", str(stage),
         ], cwd=ROOT, check=True)
         cumulative = stage
 
     final = args.output_root / "k_a1_final.pt"
     subprocess.run([
-        str(args.python), str(ROOT / "scripts/merge_key.py"),
+        str(args.python), str(ROOT / "scripts/merge_key_decoders.py"),
         "--inputs", str(cumulative), "--output", str(final), "--require-complete",
     ], cwd=ROOT, check=True)
     atomic_json(args.output_root / "COMPLETE.json", {

@@ -29,7 +29,7 @@ def main():
     out=a.output_root.resolve(); init=out/'initial'
     if out.exists() and not a.resume:
         p.error('Output already exists; use a new directory or --resume')
-    init_cmd=[sys.executable,str(ROOT/'scripts/init_key.py'),
+    init_cmd=[sys.executable,str(ROOT/'scripts/initialize_key_decoder.py'),
               '--basis-root',str(a.basis_root.resolve()),'--output-root',str(init),
               '--layers','all','--rank',str(a.rank),'--semantic-smooth',
               '--semantic-clusters','64','--semantic-iters','2']

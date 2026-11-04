@@ -85,7 +85,7 @@ from hyvideo.models.transformers.modules.attention import (
     pop_functional_readout_loss,
     reset_functional_readout_losses,
 )
-from hyvideo.models.transformers.modules.kv_ae3d import write_summary as write_kv_ae3d_summary
+from hyvideo.models.transformers.modules.kv_codec_training import write_summary as write_kv_ae3d_summary
 from hyvideo.models.transformers.modules.qvg_adapter import write_summary as write_qvg_summary
 from hyvideo.models.transformers.modules.jensen_kv_adapter import (
     write_summary as write_jensen_summary,
@@ -93,7 +93,7 @@ from hyvideo.models.transformers.modules.jensen_kv_adapter import (
 from hyvideo.models.transformers.modules.turboquant_adapter import (
     write_summary as write_turboquant_summary,
 )
-from hyvideo.models.transformers.modules.kv_ae3d import (
+from hyvideo.models.transformers.modules.kv_codec_training import (
     backward_k_functional_audit,
     detach_k_functional_cache_for_rollout,
     detach_v_functional_cache_for_rollout,

@@ -189,7 +189,7 @@ def collect_position(args, case, position: int):
             layer: info["file_size_bytes"] for layer, info in layer_infos.items()
         },
         "dump_hook_name": "dump_multipos_pre_kv",
-        "dump_module_path": "hyvideo.models.transformers.modules.kv_ae3d",
+        "dump_module_path": "hyvideo.models.transformers.modules.kv_codec_training",
         "whether_model_offload_disabled": True,
         "warnings": warnings,
         "notes": [

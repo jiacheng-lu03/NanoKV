@@ -2,7 +2,7 @@
 import argparse
 from pathlib import Path
 import torch
-from codec_native.fit_readers import decoder
+from codec_native.reader_training import decoder
 from codec_native.reader_tools import initialize_reader_state
 
 def main():

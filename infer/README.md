@@ -61,7 +61,7 @@ the native model shortens generation when fewer poses are provided.
 export ARTIFACTS=/absolute/path/to/mg/artifacts
 export NANOKV_RUN_CACHE=/absolute/path/to/mg_runtime_cache
 python infer/run.py mg generate --profile configs/mg/nanokv.json -- \
-  --config configs/infer_distilled_2blocks_retrace.yaml \
+  --config configs/infer_nanokv.yaml \
   --checkpoint /absolute/path/to/first-person.safetensors \
   --wan-dir /absolute/path/to/Wan2.2-TI2V-5B \
   --tokenizer-dir /absolute/path/to/Wan2.2-TI2V-5B/google/umt5-xxl \
@@ -103,7 +103,7 @@ The numerical budgets are recorded in `configs/paper_settings.json`.
 ## Video metrics
 
 Use identical prompts, input images, actions, seeds, frame counts and resolution
-for Original and compressed runs. Install `lpips` and `scikit-image` in the
+for Original and compressed runs. Install `lpips`, `torchmetrics`, and `scikit-image` in the
 evaluation environment, then run:
 
 ```bash

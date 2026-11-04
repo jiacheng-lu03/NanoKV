@@ -3061,7 +3061,7 @@ def _attend_dictionary_lowkv_recent(
         anchor_tokens = 0
         low_tokens = old_tokens
     if os.environ.get("HY_DIRECT_CODEC_MAC_AUDIT_PATH"):
-        from .codec_native_mac_audit import record
+        from .attention_compute_stats import record
         record(
             layer_idx, runtime, int(query_bhsd.shape[2]),
             int(current_key_bhsd.shape[2]), int(encoder_key_bhsd.shape[2]),

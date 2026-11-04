@@ -75,7 +75,7 @@ def _commit(
     cur_positions, cur_cache_chunk_ids,
 ):
     from diffsynth.models.causal_kv_codec import process_cache_write
-    from diffsynth.models.worldplay_kv_codec import concat_values, encode_tensor, value_shape
+    from diffsynth.models.nanokv_codec import concat_values, encode_tensor, value_shape
     cur_k_pre, cur_v_raw = process_cache_write(int(layer_idx), cur_k_pre.detach(), cur_v_raw.detach())
     k_value = encode_tensor("k", int(layer_idx), cur_k_pre)
     v_value = encode_tensor("v", int(layer_idx), cur_v_raw)
@@ -119,7 +119,7 @@ def maybe_attention(
     )
     from .accounting import record
     if reader is None:
-        from diffsynth.models.worldplay_kv_codec import value_shape
+        from diffsynth.models.nanokv_codec import value_shape
         shape = None if cache is None else value_shape(cache.get('k'))
         n = 0 if shape is None else int(shape[1])
         frames = list(cache_frames or [])
@@ -138,7 +138,7 @@ def maybe_attention(
     sink = int(policy.get("sink_native_frames", 0))
     cache_shape = None
     if cache is not None and cache.get("k") is not None:
-        from diffsynth.models.worldplay_kv_codec import value_shape
+        from diffsynth.models.nanokv_codec import value_shape
         cache_shape = value_shape(cache["k"])
     cache_tokens = 0 if cache_shape is None else int(cache_shape[1])
     frames = [] if cache_frames is None else list(cache_frames)
@@ -191,7 +191,7 @@ def maybe_attention(
 
     protected_k, protected_v = [], []
     if (protected_count>0 if fast_counts else bool(protect.any())):
-        from diffsynth.models.worldplay_kv_codec import decode_pair_selected
+        from diffsynth.models.nanokv_codec import decode_pair_selected
         pk, pv = decode_pair_selected(
             cache["k"], cache["v"], protect,
             dtype=q_pre.dtype, device=q_pre.device,
@@ -215,7 +215,7 @@ def maybe_attention(
 
     low_segments = []
     if (low_count>0 if fast_counts else bool(low_keep.any())):
-        from diffsynth.models.worldplay_kv_codec import direct_latent_pair_segments
+        from diffsynth.models.nanokv_codec import direct_latent_pair_segments
         low_segments = direct_latent_pair_segments(
             cache["k"], cache["v"], device=q_pre.device, token_keep=low_keep
         )

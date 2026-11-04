@@ -2406,7 +2406,7 @@ def dump_multipos_pre_v(layer_idx: int, tensor_name: str, tensor: torch.Tensor, 
         "shape": tuple(int(v) for v in tensor.shape),
         "thw": tuple(int(v) for v in thw),
         "dump_hook_name": "dump_multipos_pre_kv",
-        "dump_module_path": "hyvideo.models.transformers.modules.kv_ae3d",
+        "dump_module_path": "hyvideo.models.transformers.modules.kv_codec_training",
         "tensor_source": f"_kv_cache_new[layer]['{expected_tensor_name}'] after HY_PRE_POSITION_VISION_KV_CACHE remaps it from vision_kv['{expected_tensor_name}_pre_position']",
         "notes": [
             f"{one_target.upper()} dump from requested target={target}.",
@@ -2509,7 +2509,7 @@ def dump_qk_subset_pre_position(
         "source_device": str(q_tensor.device),
         "thw": tuple(int(v) for v in thw),
         "dump_hook_name": "dump_qk_subset_pre_position",
-        "dump_module_path": "hyvideo.models.transformers.modules.kv_ae3d",
+        "dump_module_path": "hyvideo.models.transformers.modules.kv_codec_training",
         "tensor_source": "img_q/img_k before RoPE/ProPE positional transforms in forward_vision",
         "source_v_path": source_v_path,
         "notes": [
@@ -2794,7 +2794,7 @@ def _compress_tensor(tensor: torch.Tensor, layer_idx: int, tensor_name: str, thw
     else:
         latent = z
     payload = {
-        "kv_ae3d": True,
+        "kv_codec_training": True,
         "layer_idx": int(layer_idx),
         "tensor_name": tensor_name,
         "shape": tuple(int(v) for v in tensor.shape),
@@ -5154,7 +5154,7 @@ def _layerwise_ckpt_path(root: str, layer_idx: int, variant: str) -> Optional[Pa
 
 @torch.no_grad()
 def maybe_decompress(obj: Any, dtype: torch.dtype, device) -> Any:
-    if not isinstance(obj, dict) or not obj.get("kv_ae3d"):
+    if not isinstance(obj, dict) or not obj.get("kv_codec_training"):
         if isinstance(obj, dict) and obj.get("kv_codec"):
             from hyvideo.models.transformers.modules.kv_codecs import (
                 decompress_kv_tensor,

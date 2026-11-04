@@ -1,8 +1,10 @@
-# One-block diagnostic variant of the frozen two-block protocol.
+# Two-block generation settings for Matrix-Game 3.5 NanoKV evaluation.
+# Camera files contain 1 anchor + 84 poses for each of the two actions.
+
 profile: standard
 height: 704
 width: 1280
-num_blocks: 1
+num_blocks: 2
 seed: 3407
 schedule: [1000, 667, 333]
 

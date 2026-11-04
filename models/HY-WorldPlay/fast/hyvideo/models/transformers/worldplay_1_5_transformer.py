@@ -56,7 +56,7 @@ from hyvideo.models.text_encoders.byT5 import ByT5Mapper
 from hyvideo.commons.parallel_states import get_parallel_state
 
 from hyvideo.prope.camera_rope import prope_qkv
-from hyvideo.models.transformers.modules.kv_ae3d import (
+from hyvideo.models.transformers.modules.kv_codec_training import (
     compress_layer_cache,
     dump_attention_sample,
     dump_qk_subset_pre_position,

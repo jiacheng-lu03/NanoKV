@@ -10,13 +10,13 @@ def collect(q, freqs, camera_info, cache, cache_freqs, cache_frames, cur_frames,
     dest=os.environ.get('MG35_READER_CAPTURE_DIR')
     if not dest:return
     if os.environ.get('MG35_READER_CAPTURE_FULL')=='1':
-        from .capture_full import collect_full
+        from .attention_samples import collect_full
         return collect_full(q,freqs,camera_info,cache,cache_freqs,cache_frames,cur_frames,mosaic_tokens,layer_idx,cache_read_chunk_id,**native)
     if os.environ.get('MG35_READER_CAPTURE_SPLIT') not in ('train','dev'):
         raise RuntimeError('Reader calibration must not collect formal test cases')
     l=int(layer_idx);_COUNTS[l]=_COUNTS.get(l,0)+1;call=_COUNTS[l]
     if call not in (12,24,36,48) or not cache or cache.get('k') is None:return
-    from diffsynth.models.worldplay_kv_codec import value_shape,direct_latent_pair_segments
+    from diffsynth.models.nanokv_codec import value_shape,direct_latent_pair_segments
     n=value_shape(cache['k'])[1];frames=list(cache_frames or [])
     if not frames or n%len(frames):return
     device=q.device;ordinals=torch.arange(len(frames),device=device).repeat_interleave(n//len(frames))
@@ -42,7 +42,7 @@ def collect(q, freqs, camera_info, cache, cache_freqs, cache_frames, cur_frames,
             z,(centers,assigned),mean=s[target]
             bias=mean[None,None].expand(z.shape[0],z.shape[1],-1)
             if centers is not None:bias=bias+centers.gather(1,assigned[...,None].expand(-1,-1,centers.shape[-1])).float()
-            from diffsynth.models.worldplay_kv_codec import _operator, _operator_linear
+            from diffsynth.models.nanokv_codec import _operator, _operator_linear
             operator = _operator(target, l, device)
             decoded = _operator_linear(z.reshape(-1,z.shape[-1]),operator['decoder'],operator['mean']).reshape(z.shape[0],z.shape[1],-1)
             if centers is not None:

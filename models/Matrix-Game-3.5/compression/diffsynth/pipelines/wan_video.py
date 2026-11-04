@@ -3486,7 +3486,7 @@ def model_fn_causal_kv(
         terminal_gate_score = False
         terminal_output_objective = False
     if os.environ.get("MG35_KVCODEC_MODE", "").strip().lower() == "worldplay_method":
-        from diffsynth.models.worldplay_kv_codec import preload_operator_weights
+        from diffsynth.models.nanokv_codec import preload_operator_weights
 
         preload_operator_weights(x.device)
 
@@ -3598,7 +3598,7 @@ def model_fn_causal_kv(
     if write_cache and os.environ.get("MG35_KVCODEC_MODE", "").strip().lower() in {
         "worldplay_method", "worldplay_kvtc"
     }:
-        from diffsynth.models.worldplay_cache_audit import record
+        from diffsynth.models.cache_memory_stats import record
 
         # This is the temporary cache-fill/read composition, not the retained
         # rolling state used for the paper's storage ratio.

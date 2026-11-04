@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build the consolidated INT8 resident operator used by frozen HY deployment."""
+"""Pack Matrix-Game NanoKV codec operators into an INT8 inference artifact."""
 
 from __future__ import annotations
 

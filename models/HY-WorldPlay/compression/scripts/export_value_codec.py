@@ -7,8 +7,8 @@ import json
 import torch
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--source", type=Path, default=Path("kv_ae_outputs/ae16x_v2/v_qvg_joint_smooth_int4_qat_all54"))
-parser.add_argument("--output-root", type=Path, default=Path("kv_ae_outputs/ae16x_v2/v_qvg_joint_smooth_int4_qat_all54_resident"))
+parser.add_argument("--source", type=Path, required=True)
+parser.add_argument("--output-root", type=Path, required=True)
 args = parser.parse_args()
 SOURCE = args.source
 OUT = args.output_root

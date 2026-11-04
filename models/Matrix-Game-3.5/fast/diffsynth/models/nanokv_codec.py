@@ -143,7 +143,7 @@ def _operator_linear(rows: torch.Tensor, packed: dict, bias=None) -> torch.Tenso
     group_size = int(packed["group_size"])
     if (os.environ.get("MG35_CODEC_NATIVE_WEIGHT_DEQUANT_OPT", "0") == "1"
             and qweight.is_cuda and packed["scale"].dtype == torch.bfloat16):
-        from .worldplay_kv_codec_triton import unpack_int8_weight
+        from .nanokv_codec_kernels import unpack_int8_weight
         weight = unpack_int8_weight(qweight, packed["scale"], group_size)
     else:
         weight = (
@@ -417,7 +417,7 @@ def _decode_method_segments(
         packed = part["packed_codes"].to(device)
         scales = part["scale"].to(device=device)
         if packed.is_cuda:
-            from .worldplay_kv_codec_triton import unpack_int4_scaled
+            from .nanokv_codec_kernels import unpack_int4_scaled
 
             latent = unpack_int4_scaled(
                 packed, scales, tuple(part["latent_shape"])
@@ -495,7 +495,7 @@ def value_shape(value: Any) -> tuple[int, int, int] | None:
         "worldplay_kvtc_layer_v1",
         "worldplay_kvtc_stream_layer_v1",
     }:
-        from .worldplay_kvtc import layer_shape
+        from .kvtc_codec import layer_shape
         return layer_shape(value)
     from .training_free_kv_baselines import is_payload as is_baseline_payload
     if is_baseline_payload(value):
@@ -522,7 +522,7 @@ def decode_value(value: Any, *, dtype: torch.dtype, device: torch.device) -> tor
         "worldplay_kvtc_layer_v1",
         "worldplay_kvtc_stream_layer_v1",
     }:
-        from .worldplay_kvtc import decode_value as decode_kvtc_value
+        from .kvtc_codec import decode_value as decode_kvtc_value
         return decode_kvtc_value(value, dtype, device)
     if value.get("codec") == "worldplay_segments_v1":
         parts = value["segments"]
@@ -622,7 +622,7 @@ def select_value(
     if torch.is_tensor(value):
         return value.index_select(1, token_idx).contiguous()
     if value.get("codec") == "worldplay_kvtc_stream_layer_v1":
-        from .worldplay_kvtc import select_stream_layer
+        from .kvtc_codec import select_stream_layer
 
         return select_stream_layer(value, token_idx)
     parts = value["segments"] if value.get("codec") == "worldplay_segments_v1" else [value]

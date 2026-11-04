@@ -10,7 +10,7 @@ def collect_full(q,freqs,camera_info,cache,cache_freqs,cache_frames,cur_frames,m
     calls=tuple(map(int,os.environ.get('MG35_READER_CAPTURE_CALLS','12,24,48').split(',')))
     if call not in calls or not cache or cache.get('k') is None:return
     from .mg35 import _expand_frames
-    from diffsynth.models.worldplay_kv_codec import value_shape,direct_latent_pair_segments
+    from diffsynth.models.nanokv_codec import value_shape,direct_latent_pair_segments
     device=q.device;n=value_shape(cache['k'])[1];frames=list(cache_frames or []);chunks=cache.get('chunk_ids',[])
     eligible=torch.ones(n,dtype=torch.bool,device=device)
     if read_id is not None and len(chunks)==len(frames):

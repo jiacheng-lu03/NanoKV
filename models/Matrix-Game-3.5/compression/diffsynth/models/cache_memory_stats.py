@@ -118,10 +118,10 @@ def _unique_storage_bytes(
 def _operator_bytes(mode: str) -> int:
     seen = set()
     if mode == "worldplay_method":
-        from .worldplay_kv_codec import _OPERATORS
+        from .nanokv_codec import _OPERATORS
         return _unique_tensor_bytes(_OPERATORS, seen)
     if mode == "worldplay_kvtc":
-        from .worldplay_kvtc import _ARTIFACTS
+        from .kvtc_codec import _ARTIFACTS
         return _unique_tensor_bytes(_ARTIFACTS, seen)
     if mode in {"qvg", "turboquant"}:
         from .training_free_kv_baselines import resident_codec_bytes
@@ -172,7 +172,7 @@ def record_live_roots(roots: dict, *, scope: str) -> dict:
 
 
 def record(caches, *, scope: str) -> dict:
-    from .worldplay_kv_codec import value_shape
+    from .nanokv_codec import value_shape
     mode = os.environ.get("MG35_KVCODEC_MODE", "").strip().lower()
     seen = set()
     # Report physical resident storage, not only tensor view numel.  This keeps

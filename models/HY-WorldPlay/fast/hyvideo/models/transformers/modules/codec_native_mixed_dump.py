@@ -9,7 +9,7 @@ from pathlib import Path
 import torch
 
 from .kv_codecs import _joint_semantic_smooth, unpack_quantized_codes
-from .kv_ae3d import (
+from .kv_codec_training import (
     _sample_indices,
     _select_hidden,
     _select_sequence_metadata,

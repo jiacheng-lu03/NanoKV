@@ -9,7 +9,7 @@ import lpips
 import numpy as np
 import torch
 
-from evaluate_rope_fused_metrics import metric_triplet, read_video
+from video_metrics import metric_triplet, read_video
 
 
 def main():

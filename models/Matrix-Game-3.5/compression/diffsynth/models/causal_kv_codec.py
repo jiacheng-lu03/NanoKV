@@ -330,7 +330,7 @@ def _semantic_residual(value: torch.Tensor, layer_idx: int):
     # The default is the exact frozen HY BF16 center path.  The optional
     # block-INT8 side-information experiment must affect calibration too, so
     # PCA/QAT rows and deployment never see different residual definitions.
-    from .worldplay_kv_codec import store_centers
+    from .nanokv_codec import store_centers
     stored, decoded_centers = store_centers(centers)
     assigned = torch.gather(
         decoded_centers, 1, labels[..., None].expand(-1, -1, dim)
@@ -374,7 +374,7 @@ def _pca_int4_roundtrip(
     decoded = torch.nn.functional.linear(quantized * stored_scale, decoder, mean)
     decoded = decoded.reshape_as(rows)
     if semantic:
-        from .worldplay_kv_codec import restore_centers
+        from .nanokv_codec import restore_centers
         assigned = torch.gather(
             restore_centers(centers, device=decoded.device),
             1,

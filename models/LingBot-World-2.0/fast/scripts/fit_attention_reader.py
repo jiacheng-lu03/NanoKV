@@ -10,7 +10,7 @@ import torch
 
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/'scripts'))
-from train_reader import ReaderFit
+from reader_training import ReaderFit
 
 def native(case):
     return [case[k].float().cuda()[0] for k in ('q_native','k_native','v')]

@@ -416,7 +416,7 @@ def causal_self_attention_kv(
         )
 
     if os.environ.get("MG35_READER_CAPTURE_DIR"):
-        from codec_native.capture import collect as capture_reader_teacher
+        from codec_native.collect_attention import collect as capture_reader_teacher
 
         capture_reader_teacher(
             q_pre, freqs_cur, camera_info, cache, cache_freqs, cache_frames,
@@ -490,7 +490,7 @@ def causal_self_attention_kv(
     clean_v_parts = []
     cache_k_value = None if cache is None else cache.get("k")
     if cache_k_value is not None:
-        from .worldplay_kv_codec import decode_pair_values, value_shape
+        from .nanokv_codec import decode_pair_values, value_shape
         cached_shape = value_shape(cache_k_value)
     else:
         cached_shape = None
@@ -716,13 +716,13 @@ def causal_self_attention_kv(
         worldplay_resident = worldplay_mode in {
             "stats", "worldplay_method", "worldplay_kvtc", "qvg", "turboquant"
         }
-        from .worldplay_kv_codec import value_shape
+        from .nanokv_codec import value_shape
         if worldplay_mode == "worldplay_method":
-            from .worldplay_kv_codec import concat_values, encode_tensor
+            from .nanokv_codec import concat_values, encode_tensor
             cur_k_store = encode_tensor("k", int(layer_idx), cur_k_pre)
             cur_v_store = encode_tensor("v", int(layer_idx), cur_v_raw)
         elif worldplay_mode == "stats":
-            from .worldplay_kv_codec import encode_raw_tensor
+            from .nanokv_codec import encode_raw_tensor
             cur_k_store = encode_raw_tensor(cur_k_pre)
             cur_v_store = encode_raw_tensor(cur_v_raw)
         elif worldplay_mode in {"qvg", "turboquant"}:
@@ -786,15 +786,15 @@ def causal_self_attention_kv(
                     cache["k"] = concat_values(cache["k"], cur_k_store)
                     cache["v"] = concat_values(cache["v"], cur_v_store)
                 elif worldplay_mode == "stats":
-                    from .worldplay_kv_codec import concat_values
+                    from .nanokv_codec import concat_values
                     cache["k"] = concat_values(cache["k"], cur_k_store)
                     cache["v"] = concat_values(cache["v"], cur_v_store)
                 elif worldplay_mode in {"qvg", "turboquant"}:
-                    from .worldplay_kv_codec import concat_values
+                    from .nanokv_codec import concat_values
                     cache["k"] = concat_values(cache["k"], cur_k_store)
                     cache["v"] = concat_values(cache["v"], cur_v_store)
                 else:
-                    from .worldplay_kv_codec import decode_value
+                    from .nanokv_codec import decode_value
                     old_k = decode_value(
                         cache["k"], dtype=cur_k_pre.dtype, device=cur_k_pre.device
                     )

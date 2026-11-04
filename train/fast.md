@@ -133,7 +133,7 @@ With `CHECKPOINT`, `WAN`, `DA3`, and `NANOKV_RUN_CACHE` set as in
 python train/run.py mg collect_fast --profile "$WORK/nanokv-local.json" \
   --env MG35_READER_CAPTURE_DIR="$WORK/reader_samples/train_000" \
   --env MG35_READER_CAPTURE_SPLIT=train --env MG35_READER_CAPTURE_FULL=1 -- \
-  --config configs/infer_distilled_2blocks_retrace.yaml \
+  --config configs/infer_nanokv.yaml \
   --checkpoint "$CHECKPOINT" --wan-dir "$WAN" \
   --tokenizer-dir "$WAN/google/umt5-xxl" --da3-dir "$DA3" \
   --image /absolute/path/to/train.png --camera /absolute/path/to/train_camera.npz \

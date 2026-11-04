@@ -241,7 +241,7 @@ def _semantic_residual(value: torch.Tensor, layer: int):
         centers = torch.where((counts > 0).unsqueeze(-1), updated, centers)
     # Reuse the deployment center round-trip. This is BF16 for strict
     # WorldPlay and block-INT8 only when the explicit MG experiment is enabled.
-    from .worldplay_kv_codec import store_centers
+    from .nanokv_codec import store_centers
     _, centers = store_centers(centers)
     assigned = torch.gather(
         centers, 1, labels[..., None].expand(-1, -1, dim)

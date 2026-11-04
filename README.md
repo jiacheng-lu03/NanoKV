@@ -107,6 +107,9 @@ eval/      Frame-aligned video metrics
 docs/      Environment setup and project page
 ```
 
+See [model integration layout](models/README.md) for the native modules and
+the naming conventions used by the training and inference code.
+
 ## 🤝 Acknowledgements and Licenses
 
 We build on HY-WorldPlay, LingBot-World, Matrix-Game, and their dependencies.

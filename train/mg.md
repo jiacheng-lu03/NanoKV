@@ -33,7 +33,7 @@ python train/run.py mg collect --profile configs/mg/original.json \
   --env MG35_KVCODEC_COLLECT_C64=1 \
   --env MG35_KVCODEC_CENTER_STORAGE=bf16 \
   --env MG35_KVCODEC_CENTER_BLOCK_SIZE=64 -- \
-  --config configs/infer_distilled_2blocks_retrace.yaml \
+  --config configs/infer_nanokv.yaml \
   --checkpoint "$CHECKPOINT" --wan-dir "$WAN" \
   --tokenizer-dir "$WAN/google/umt5-xxl" --da3-dir "$DA3" \
   --image /absolute/path/to/train.png --camera /absolute/path/to/train_camera.npz \

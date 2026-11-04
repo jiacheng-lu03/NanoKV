@@ -7,10 +7,10 @@ import argparse,copy,json,time
 from pathlib import Path
 import torch
 import torch.nn.functional as F
-from codec_native.fit_readers import decoder,device_tree,indices_for
+from codec_native.reader_training import decoder,device_tree,indices_for
 from codec_native.core import ReaderGroup,rope_selected,camera_selected
 from codec_native.reader_tools import initialize_reader_state
-from codec_native.build_initial_readers import OP,sha
+from codec_native.artifact_utils import OP,sha
 
 def heads(x):return x.reshape(x.shape[0],-1,24,128).permute(0,2,1,3).float()
 

@@ -113,7 +113,7 @@ def run_distilled_inference(
             with timing.scope("distilled_inference.materialize"):
                 data = unwrapped_model._materialize_data(data)
         if os.environ.get("MG35_KVCODEC_MODE", "").strip():
-            from diffsynth.models.worldplay_cache_audit import record_cuda_phase
+            from diffsynth.models.cache_memory_stats import record_cuda_phase
 
             record_cuda_phase("after_vae_materialization")
 

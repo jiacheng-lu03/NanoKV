@@ -752,7 +752,7 @@ class WanI2VCausal:
                     self_kv_cache, active=False, chunk_id=chunk_id + 1
                 )
                 if self.kv_codec_options.get("runtime_summary"):
-                    from .modules.lingbot_v2_memory_audit import record_snapshot
+                    from .modules.cache_memory_stats import record_snapshot
                     record_snapshot(self_kv_cache)
                 for timestep_idx in range(len(timesteps)):
                     latent_model_input = [current_latent.to(self.device)]
@@ -849,7 +849,7 @@ class WanI2VCausal:
                     self_kv_cache[0]["_kvtc_transient_released_before_summary"] = (
                         clear_transient_coefficients(self_kv_cache)
                     )
-                from .modules.lingbot_v2_memory_audit import write_summary
+                from .modules.cache_memory_stats import write_summary
                 target = Path(summary_path)
                 if self.sp_size > 1:
                     target = target.with_name(

@@ -249,7 +249,7 @@ def main(argv=None):
     finally:
         torch.cuda.synchronize(accelerator.device)
         if os.environ.get("MG35_KVTC_PROFILE_PATH", "").strip():
-            from diffsynth.models.worldplay_kvtc import write_profile
+            from diffsynth.models.kvtc_codec import write_profile
             write_profile()
         telemetry_path = os.environ.get("MG35_RUNTIME_SUMMARY", "").strip()
         if telemetry_path:

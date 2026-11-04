@@ -11,7 +11,7 @@ from pathlib import Path
 
 import torch
 
-from hyvideo.models.transformers.modules.kv_ae3d import build_pre_kv_ae
+from hyvideo.models.transformers.modules.kv_codec_training import build_pre_kv_ae
 
 
 def parse_layers(value: str):

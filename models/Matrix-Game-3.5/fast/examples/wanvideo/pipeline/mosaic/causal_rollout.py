@@ -85,12 +85,12 @@ def _causal_kv_cache_copy(cache_list):
 
 
 def _worldplay_cache_shape(value):
-    from diffsynth.models.worldplay_kv_codec import value_shape
+    from diffsynth.models.nanokv_codec import value_shape
     return value_shape(value)
 
 
 def _worldplay_cache_concat(left, right, *, layer_idx, kind):
-    from diffsynth.models.worldplay_kv_codec import (
+    from diffsynth.models.nanokv_codec import (
         concat_values, decode_value, encode_tensor, is_payload,
     )
     if left is None:
@@ -131,11 +131,11 @@ def _worldplay_cache_concat(left, right, *, layer_idx, kind):
 
 
 def _worldplay_cache_index(value, token_idx, *, layer_idx, kind):
-    from diffsynth.models.worldplay_kv_codec import is_payload, select_value
+    from diffsynth.models.nanokv_codec import is_payload, select_value
     if not is_payload(value):
         return value.index_select(1, token_idx).contiguous()
     if isinstance(value, dict) and value.get("codec") == "worldplay_kvtc_layer_v1":
-        from diffsynth.models.worldplay_kv_codec import decode_value
+        from diffsynth.models.nanokv_codec import decode_value
         decoded = decode_value(value, dtype=torch.bfloat16, device=token_idx.device)
         return decoded.index_select(1, token_idx).contiguous()
     return select_value(
@@ -148,7 +148,7 @@ def _causal_kv_concat_caches(left, right):
     mode = os.environ.get("MG35_KVCODEC_MODE", "").strip().lower()
     kvtc_values = None
     if mode == "worldplay_kvtc" and (left or right):
-        from diffsynth.models.worldplay_kvtc import concat_stream_caches
+        from diffsynth.models.kvtc_codec import concat_stream_caches
 
         kvtc_values = concat_stream_caches(left, right)
     if not left:
@@ -310,7 +310,7 @@ def _causal_kv_slice_cache_frames(cache_list, frame_indices, *, context):
             if torch.is_tensor(k):
                 index_device = k.device
             else:
-                from diffsynth.models.worldplay_kv_codec import decode_value
+                from diffsynth.models.nanokv_codec import decode_value
                 # Any resident tensor gives the payload device without decoding.
                 def first_tensor(obj):
                     if torch.is_tensor(obj):
@@ -1119,7 +1119,7 @@ def _run_causal_kv_rollout(
             )
 
     if os.environ.get("MG35_KVCODEC_MODE", "").strip():
-        from diffsynth.models.worldplay_cache_audit import record_cuda_phase
+        from diffsynth.models.cache_memory_stats import record_cuda_phase
 
         record_cuda_phase("before_dit_onload")
     pipe.load_models_to_device(pipe.in_iteration_models)
@@ -1145,7 +1145,7 @@ def _run_causal_kv_rollout(
                 cur_cache_chunk_ids=[-1],
             )
     if os.environ.get("MG35_KVCODEC_MODE", "").strip():
-        from diffsynth.models.worldplay_cache_audit import record_cuda_phase
+        from diffsynth.models.cache_memory_stats import record_cuda_phase
 
         record_cuda_phase("after_initial_c0_cache_fill")
     scheduler = pipe.scheduler
@@ -2725,7 +2725,7 @@ def _run_causal_kv_rollout(
                 torch.cuda.empty_cache()
             latents = cur
             if os.environ.get("MG35_KVCODEC_MODE", "").strip():
-                from diffsynth.models.worldplay_cache_audit import record_cuda_phase
+                from diffsynth.models.cache_memory_stats import record_cuda_phase
 
                 record_cuda_phase("after_denoise", chunk=int(i))
             # Cache-fill uses the final denoising step's context visibility. This
@@ -2765,7 +2765,7 @@ def _run_causal_kv_rollout(
                 write_cache=True,
             )
             if os.environ.get("MG35_KVCODEC_MODE", "").strip():
-                from diffsynth.models.worldplay_cache_audit import record_cuda_phase
+                from diffsynth.models.cache_memory_stats import record_cuda_phase
 
                 record_cuda_phase("after_cache_fill", chunk=int(i))
         all_clean.append(latents.detach().cpu())
@@ -2793,7 +2793,7 @@ def _run_causal_kv_rollout(
         if worldplay_audit_mode in {
             "stats", "worldplay_method", "worldplay_kvtc", "qvg", "turboquant"
         }:
-            from diffsynth.models.worldplay_cache_audit import record_live_roots
+            from diffsynth.models.cache_memory_stats import record_live_roots
 
             # Count every cache root that is still live at the commit boundary.
             # This catches raw BF16 segments retained only by temporary read or
@@ -2863,7 +2863,7 @@ def _run_causal_kv_rollout(
         if os.environ.get("MG35_KVCODEC_MODE", "").strip().lower() in {
             "stats", "worldplay_method", "worldplay_kvtc", "qvg", "turboquant"
         }:
-            from diffsynth.models.worldplay_cache_audit import record
+            from diffsynth.models.cache_memory_stats import record
 
             # The formal dynamic-cache ratio is defined on this retained
             # logical state, after append/extract/trim has completed.

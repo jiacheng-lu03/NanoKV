@@ -1,7 +1,7 @@
 """Attention-output calibration helpers for codec-native readers."""
 import math
 import torch
-from train_reader import rope_low
+from reader_training import rope_low
 
 def risks(group,cases,gram=None,mean_residual=False):
     t={k:v.cuda().float() if k!='indices' else v.cuda() for k,v in group.items() if k!='heads'}
