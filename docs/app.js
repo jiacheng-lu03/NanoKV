@@ -44,138 +44,58 @@ $('ambient-toggle').addEventListener('click', () => {
 });
 updateAmbientButton();
 
-const original = $('original-video');
-const candidate = $('candidate-video');
-const pair = [original, candidate];
-let scenes = [], currentModel = 'hy', currentScene, mode = 'nanokv', loading = false;
-let playing = false, generation = 0, seeking = false;
-const clock = time => `${Math.floor(Math.max(0,time)/60)}:${String(Math.floor(Math.max(0,time)%60)).padStart(2,'0')}`;
-function pausePair() {
-  playing = false;
-  pair.forEach(v => v.pause());
-  $('play-pair').textContent = '▶ Play comparison';
-  $('play-pair').setAttribute('aria-label', 'Play both comparison videos');
-}
-async function playPair() {
-  if (loading) return;
-  if (original.currentTime >= original.duration - .1) pair.forEach(v => v.currentTime = 0);
-  candidate.currentTime = original.currentTime;
-  try {
-    await Promise.all(pair.map(v => v.play()));
-    playing = true;
-    $('play-pair').textContent = 'Ⅱ Pause comparison';
-    $('play-pair').setAttribute('aria-label', 'Pause both comparison videos');
-    $('video-status').textContent = '';
-  } catch {
-    pausePair();
-    $('video-status').textContent = 'Playback could not start. Press Play comparison to try again.';
+// Each visible row plays its two videos together, following the showcase layout.
+const comparisons = [...document.querySelectorAll('[data-pair]')].map(row => {
+  const videos = [...row.querySelectorAll('video')];
+  const button = row.querySelector('.pair-toggle');
+  const status = row.querySelector('.pair-status');
+  const state = {row, videos, visible:false, paused:reducedMotion.matches, token:0};
+  function update() {
+    button.textContent = state.paused ? 'Play videos' : 'Pause videos';
+    button.setAttribute('aria-label', `${state.paused ? 'Play' : 'Pause'} both videos: ${row.querySelector('h4').textContent}`);
   }
-}
-function tick() {
-  const duration = Math.min(original.duration || 0, candidate.duration || 0);
-  if (duration > 0 && Number.isFinite(duration)) {
-    if (!seeking) $('timeline').value = original.currentTime;
-    $('video-time').textContent = `${clock(original.currentTime)} / ${clock(duration)}`;
-    if (playing && !seeking && !pair.some(v => v.seeking) && Math.abs(original.currentTime - candidate.currentTime) > .12) candidate.currentTime = original.currentTime;
+  function stop() { state.token++; videos.forEach(v => v.pause()); }
+  async function play() {
+    if (state.paused || !state.visible || document.hidden) return;
+    const token = ++state.token;
+    videos.forEach(v => { if (!v.src) {v.src = v.dataset.src; v.load();} });
+    try {
+      await Promise.all(videos.map(v => v.readyState >= 3 ? Promise.resolve() : new Promise((resolve, reject) => {
+        v.addEventListener('canplay', resolve, {once:true});
+        v.addEventListener('error', reject, {once:true});
+      })));
+      if (token !== state.token || state.paused || !state.visible || document.hidden) return;
+      videos[1].currentTime = videos[0].currentTime;
+      await Promise.all(videos.map(v => v.play()));
+      if (token !== state.token || state.paused || !state.visible || document.hidden) videos.forEach(v => v.pause());
+      status.textContent = '';
+    } catch {
+      if (token !== state.token) return;
+      stop(); state.paused=true; update();
+      status.textContent='Press Play videos to retry playback.';
+    }
   }
-  requestAnimationFrame(tick);
-}
-requestAnimationFrame(tick);
-$('play-pair').addEventListener('click', () => playing ? pausePair() : playPair());
-$('restart-pair').addEventListener('click', () => {
-  if (loading) return;
-  pair.forEach(v => v.currentTime = 0);
-});
-$('timeline').addEventListener('input', e => {
-  seeking = true;
-  const time = Number(e.target.value);
-  pausePair();
-  pair.forEach(v => v.currentTime = time);
-  seeking = pair.some(v => v.seeking);
-});
-pair.forEach(v => v.addEventListener('seeked', () => {
-  if (!pair.some(video => video.seeking)) seeking = false;
-}));
-pair.forEach(v => v.addEventListener('ended', pausePair));
-document.addEventListener('visibilitychange', () => {
-  if (document.hidden) {pausePair(); previews.forEach(v => v.pause());}
-  else if (!ambientPaused) previews.filter(v => v.dataset.visible === 'true').forEach(startPreview);
-});
-// Pause comparisons as they leave the viewport, without resuming unsolicited playback.
-new IntersectionObserver(entries => {
-  if (!entries[0].isIntersecting) pausePair();
-}, {threshold: .05}).observe($('compare-stage'));
-
-function selectScene(scene) {
-  generation += 1;
-  const token = generation;
-  pausePair();
-  loading = true;
-  currentScene = scene;
-  $('play-pair').disabled = true;
-  $('timeline').disabled = true;
-  $('timeline').value = 0;
-  $('video-time').textContent = '0:00 / 0:00';
-  $('video-status').textContent = 'Loading selected scene…';
-  const d = models[currentModel], index = mode === 'fast' ? 3 : 2;
-  $('scene-title').textContent = scene.title;
-  const actions = {left_right: 'Camera pans left, then right', right_left: 'Camera pans right, then left', forward_backward: 'Camera moves forward, then backward'};
-  $('scene-meta').textContent = `${scene.source_kind === 'teaser' ? 'Paper teaser' : 'Paper appendix'} · ${actions[scene.action] || scene.action}`;
-  $('scene-compression').textContent = `${d.compression[index].toFixed(2)}×`;
-  $('original-storage').textContent = `${d.storage[0].toFixed(2)} GiB KV`;
-  $('candidate-storage').textContent = `${d.storage[index].toFixed(2)} GiB KV`;
-  $('candidate-label').innerHTML = `<i class="legend ours"></i>${methods[index]}`;
-  candidate.setAttribute('aria-label', `${methods[index]} video: ${scene.title}`);
-  original.setAttribute('aria-label', `Original video: ${scene.title}`);
-  document.querySelectorAll('[data-scene]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.scene === scene.id)));
-  let ready = 0;
-  pair.forEach((video, i) => {
-    video.onloadeddata = () => {
-      if (token !== generation) return;
-      ready += 1;
-      if (ready === 2) {
-        loading = false;
-        $('play-pair').disabled = false;
-        $('timeline').disabled = false;
-        $('timeline').max = Math.min(original.duration, candidate.duration);
-        $('video-status').textContent = '';
-      }
-    };
-    video.onerror = () => {
-      if (token === generation) $('video-status').textContent = 'This video could not be loaded. Choose another scene or reload the page.';
-    };
-    video.poster = scene.poster;
-    video.src = scene.videos[i === 0 ? 'original' : mode].src;
-    video.load();
+  videos[0].addEventListener('timeupdate', () => {
+    if (!videos[0].paused && !videos.some(v => v.seeking) && Math.abs(videos[0].currentTime-videos[1].currentTime)>.12) videos[1].currentTime=videos[0].currentTime;
   });
-}
-function selectModel(model) {
-  currentModel = model;
-  document.querySelectorAll('[data-model]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.model === model)));
-  const available = scenes.filter(s => s.model === model);
-  $('scene-buttons').replaceChildren(...available.map(scene => {
-    const b = document.createElement('button');
-    b.type = 'button'; b.dataset.scene = scene.id;
-    b.setAttribute('aria-pressed', 'false');
-    const img = document.createElement('img'); img.src = scene.poster; img.alt = ''; img.width = 48; img.height = 32;
-    b.append(img, document.createTextNode(scene.title));
-    b.addEventListener('click', () => selectScene(scene));
-    return b;
-  }));
-  $('results-model').value = model;
-  showResults(model);
-  selectScene(available[0]);
-}
-document.querySelectorAll('[data-model]').forEach(b => b.addEventListener('click', () => {if (scenes.length) selectModel(b.dataset.model);}));
-document.querySelectorAll('[data-mode]').forEach(b => b.addEventListener('click', () => {
-  mode = b.dataset.mode;
-  document.querySelectorAll('[data-mode]').forEach(btn => btn.setAttribute('aria-pressed', String(btn === b)));
-  if (currentScene) selectScene(currentScene);
-}));
-fetch('assets/scenes.json').then(r => {if (!r.ok) throw new Error('Scene manifest unavailable'); return r.json();}).then(data => {
-  scenes = data.scenes;
-  selectModel(currentModel);
-}).catch(() => {$('video-status').textContent = 'Scene information could not be loaded. Please reload the page.';});
+  videos.forEach(v => {
+    v.addEventListener('ended', () => {stop();videos.forEach(video=>video.currentTime=0);play();});
+  });
+  button.addEventListener('click', () => {state.paused=!state.paused;update();state.paused?stop():play();});
+  state.play=play;state.stop=stop;update();return state;
+});
+const comparisonObserver = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    const state=comparisons.find(s=>s.row===entry.target);
+    state.visible=entry.isIntersecting;
+    state.visible?state.play():state.stop();
+  });
+}, {threshold:.05});
+comparisons.forEach(s=>comparisonObserver.observe(s.row));
+document.addEventListener('visibilitychange',()=>{
+  if(document.hidden){comparisons.forEach(s=>s.stop());previews.forEach(v=>v.pause());}
+  else{comparisons.filter(s=>s.visible).forEach(s=>s.play());if(!ambientPaused)previews.filter(v=>v.dataset.visible==='true').forEach(startPreview);}
+});
 
 $('copy-citation').addEventListener('click', async () => {
   const text = $('citation-text').textContent;
