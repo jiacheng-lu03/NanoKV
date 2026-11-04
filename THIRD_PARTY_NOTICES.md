@@ -1,6 +1,8 @@
 # Third-party model integrations
 
 The model integrations retain their upstream copyright and license terms.
+NanoKV's independent original components are licensed under MIT; the exact
+scope and exclusions are listed in [LICENSING.md](LICENSING.md).
 
 - HY-WorldPlay: Tencent HY-WorldPlay Community License Agreement, distributed
   as `License.txt` and `Notice` in both HY model directories.

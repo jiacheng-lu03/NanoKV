@@ -17,6 +17,10 @@
   <a href="#citation"><b>📖 Citation</b></a>
 </p>
 
+<p align="center">
+  <a href="LICENSING.md"><img src="https://img.shields.io/badge/License-MIT%20(original%20code)-green" alt="MIT license for independent original NanoKV code"></a>
+</p>
+
 **NanoKV is a frozen-backbone framework for generation-aware high-ratio KV compression.**
 It preserves how compressed history affects video generation through different
 fitting objectives for Keys and Values. Optional **NanoKV-Fast** reuses the same
@@ -360,6 +364,13 @@ This implementation builds on
 [Matrix-Game](https://github.com/SkyworkAI/Matrix-Game), and their dependencies.
 We thank the authors of the baseline methods and VBench for their work.
 
-Included upstream code retains its original license and notices; see
-[THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md). Backbone weights remain subject
-to their respective upstream terms.
+NanoKV's independent original utilities, configurations, and associated
+documentation are released under the [MIT License](LICENSE). See
+[license scope](LICENSING.md) for the exact covered paths and exclusions.
+
+Model integrations under `models/` retain their upstream terms: **HY-WorldPlay's
+Tencent Community License**, **LingBot's CC BY-NC-SA 4.0**, and **Matrix-Game's
+Apache-2.0**, with separately licensed dependencies retaining their own notices.
+The root MIT license does not override these terms or apply to the entire
+repository. See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md). Backbone weights
+remain subject to their respective upstream terms.
