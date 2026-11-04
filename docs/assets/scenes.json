@@ -35,7 +35,9 @@
           "fps": 24.0,
           "duration": 10.541666666666666
         }
-      }
+      },
+      "input_text": "In the majestic expanse of a clear blue sky, a solitary mountain, blanketed in pristine white snow, stands as a testament to the grandeur of nature. The mountain, the central focus of this image, is captured from a low angle, emphasizing its imposing height and the vastness of the sky that surrounds it. The camera pans upwards, following the mountain's contours, culminating in a high shot that showcases the peak. The sun casts a warm glow on the snow-covered surface, illuminating the mountain's texture and creating a sense of tranquility. The image is a harmonious blend of the mountain's raw beauty and the serene atmosphere, capturing a moment of quiet solitude in nature's embrace.",
+      "input_label": "Prompt"
     },
     {
       "id": "hy-appendix",
@@ -71,7 +73,9 @@
           "fps": 24.0,
           "duration": 10.541666666666666
         }
-      }
+      },
+      "input_text": "In this image, a cozy two-story house with a green facade and white trim is nestled amidst a snowy landscape. The front door is invitingly decorated with a wreath, and the staircase leading to it is covered in a thick blanket of snow. Snow-covered shrubs and trees frame the house, creating a serene winter scene. The camera should start with a wide shot of the house, then slowly zoom in on the front door, pausing on the wreath to emphasize the festive atmosphere. As the camera continues its zoom, it should pan up to the top of the house, highlighting the snow-covered roof and chimney. The lighting should be soft and warm, enhancing the comforting ambiance of the scene. The background should be a gentle blur, with the focus remaining on the house and its details.",
+      "input_label": "Prompt"
     },
     {
       "id": "lingbot-teaser",
@@ -107,7 +111,9 @@
           "fps": 16.0,
           "duration": 7.8125
         }
-      }
+      },
+      "input_text": "Create a cinematic scene of a tranquil beach under a sunny sky. The main subject is a person, standing on the left side of the sandy beach, facing towards the right. They are dressed in casual beach attire and appear to be contemplating the vast ocean. The camera should start with a wide shot, panning from the person to the horizon, capturing the vastness of the ocean and the sky. As the camera moves closer, it should focus on the person's face, showing their relaxed expression. The sunlight should be bright but not harsh, casting soft shadows and highlighting the person's silhouette against the light sand. The palm trees in the background should sway gently, adding a sense of movement to the scene. The overall atmosphere should be serene and peaceful, conveying a sense of relaxation and tranquility.",
+      "input_label": "Prompt"
     },
     {
       "id": "lingbot-appendix",
@@ -143,7 +149,9 @@
           "fps": 16.0,
           "duration": 7.8125
         }
-      }
+      },
+      "input_text": "The image presents a tranquil scene of a pagoda perched atop a mountain in Japan. The main subject is a red and black pagoda, standing tall and majestic against the backdrop of a clear blue sky. The pagoda is nestled amidst lush green trees and bathed in the soft glow of the sun, which casts a warm light on the scene. The camera movement should be subtle, capturing the pagoda from a low angle, giving a sense of its towering presence. The background should be a beautiful, panoramic view of the Japanese landscape, including the mountain's peak and the city in the distance, all under a clear blue sky. The overall tone of the image should be serene and peaceful, evoking the spiritual and cultural significance of the pagoda in Japan.",
+      "input_label": "Prompt"
     },
     {
       "id": "mg-teaser",
@@ -179,7 +187,9 @@
           "fps": 16.0,
           "duration": 10.5625
         }
-      }
+      },
+      "input_text": "Camera pans right, then left.",
+      "input_label": "Camera control"
     },
     {
       "id": "mg-appendix",
@@ -215,7 +225,9 @@
           "fps": 16.0,
           "duration": 10.5625
         }
-      }
+      },
+      "input_text": "Camera pans left, then right.",
+      "input_label": "Camera control"
     }
   ]
 }

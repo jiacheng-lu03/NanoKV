@@ -309,3 +309,40 @@ footer,footer div{font-size:.8rem;line-height:1.55}
 .method-figure span{padding:12px 20px;color:#aebed5}
 .method-diagram-scroll{overflow-x:auto}
 .method-diagram-scroll img{min-width:760px}
+
+/* A compact, readable type scale throughout the page. */
+body{font-size:18px;line-height:1.65}
+.hero-name{font-size:64px;line-height:1.1}
+.hero-title{font-size:clamp(32px,3vw,44px);line-height:1.15;letter-spacing:-.03em}
+h2{font-size:clamp(30px,2.6vw,38px);line-height:1.2}
+.backbone-gallery>h3{font-size:30px}
+.hero-description,.section-heading>p,.abstract p,.method-explainer p,.fast-note p{font-size:19px;line-height:1.7}
+.authors,.affiliations,.affiliations small,.button,.site-header nav,.eyebrow,.hero-reel figcaption,.reel-bottom figcaption,.video-label,.reel-footer,.reel-footer button,.model-tabs button,.scene-buttons button,.mode-toggle button,.playback-controls button,.playback-controls .play-button,#restart-pair,output,.playback-controls output,.scene-caption p,.fine-print,.method-figure span,.storage-chart>p,.resource-footnote,.compression-callout span,.storage-chart h3 span,.abstract summary,.result-select,select,.bar-row,table,th,th small,caption,.fast-note a,.resource-list a,.citation-heading button,footer,footer div,.pair-toggle,.pair-status{font-size:18px;line-height:1.6}
+.eyebrow,.site-header nav{letter-spacing:.09em}
+.authors sup,.affiliations sup{font-size:14px}
+.headline-stats strong{font-size:50px}
+.headline-stats p,.headline-stats small{font-size:18px;line-height:1.55}
+.method-explainer h3,.resource-list h3,.storage-chart h3,.citation-heading h3,.scene-caption strong{font-size:24px;line-height:1.35}
+.comparison-heading h4,.comparison-videos figcaption{font-size:22px}
+pre{font-size:17px;line-height:1.7}
+.scene-prompt{margin-top:20px;border-top:1px solid #33415a;padding-top:14px}
+.scene-prompt summary{display:inline-block;cursor:pointer;font-size:18px;line-height:1.5;letter-spacing:.08em;border:1px solid #63728a;border-radius:24px;padding:7px 18px;color:#e4ecf8;list-style:none}
+.scene-prompt summary::-webkit-details-marker{display:none}
+.scene-prompt summary::after{content:' +';margin-left:10px}
+.scene-prompt[open] summary::after{content:' −'}
+.scene-prompt p{max-width:85ch;font-family:Georgia,'Times New Roman',serif;font-size:19px;line-height:1.75;color:#d7e0ef;border-left:2px solid #729eff;padding-left:20px;margin:18px 0 0}
+.original-method{background:#0f0f0f}
+.original-method img{filter:invert(.94) hue-rotate(180deg) saturate(.7)}
+@media(max-width:760px){
+ .hero-name{font-size:52px}
+ .hero-title{font-size:30px}
+ h2{font-size:29px}
+ .site-header nav{font-size:16px;gap:12px;letter-spacing:0}
+ .headline-stats strong{font-size:42px}
+ .headline-stats p,.headline-stats small{font-size:17px}
+ .affiliations,.affiliations small{font-size:17px}
+ .pair-toggle{font-size:17px}
+ .scene-prompt p{font-size:18px}
+}
+.wordmark{font-size:20px}
+.original-method img{min-width:1100px}

@@ -17,67 +17,51 @@ function showResults(model) {
 $('results-model').addEventListener('change', e => showResults(e.target.value));
 showResults('hy');
 
-const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-const comparisons = [...document.querySelectorAll('[data-pair]')].map(row => {
-  const videos=[...row.querySelectorAll('video')],button=row.querySelector('.pair-toggle'),status=row.querySelector('.pair-status');
-  const state={row,videos,visible:false,paused:reducedMotion.matches,token:0,starting:false};
-  const shouldPlay=()=>state.visible && !state.paused && !document.hidden;
-  const update=()=>{button.textContent=state.paused?'Play videos':'Pause videos';button.setAttribute('aria-label',`${state.paused?'Play':'Pause'} both videos: ${row.querySelector('h4').textContent}`);};
-  const stop=()=>{state.token++;videos.forEach(v=>{v.pause();v.playbackRate=1;});};
-  function ready(v){
-    if(v.error)return Promise.reject(v.error);
-    if(v.readyState>=3)return Promise.resolve();
-    return new Promise((resolve,reject)=>{
-      const clean=()=>{v.removeEventListener('canplay',ok);v.removeEventListener('error',fail);};
-      const ok=()=>{clean();resolve();},fail=()=>{clean();reject(v.error);};
-      v.addEventListener('canplay',ok);v.addEventListener('error',fail);
-    });
-  }
-  async function play(){
-    if(!shouldPlay() || state.starting)return;
-    state.starting=true;const token=++state.token;
-    try{
-      videos.forEach(v=>{v.pause();v.playbackRate=1;if(!v.src){v.preload='auto';v.src=v.dataset.src;v.load();}});
-      await Promise.all(videos.map(ready));
-      if(token!==state.token || !shouldPlay())return;
-      const time=Math.min(...videos.map(v=>v.currentTime));
-      await Promise.all(videos.map(v=>new Promise(resolve=>{
-        if(!v.seeking && Math.abs(v.currentTime-time)<.02){resolve();return;}
-        v.addEventListener('seeked',resolve,{once:true});v.currentTime=time;
-      })));
-      await Promise.all(videos.map(ready));
-      if(token!==state.token || !shouldPlay())return;
-      await Promise.all(videos.map(v=>v.play()));
-      if(!shouldPlay())videos.forEach(v=>v.pause());
-      status.textContent='';
-    }catch(e){
-      if(token===state.token){stop();state.paused=true;update();status.textContent='Press Play videos to retry.';}
-    }finally{
-      state.starting=false;
-      if(token!==state.token && shouldPlay())play();
-    }
-  }
-  // Small clock drift is corrected gradually; avoid repeated pause/seek cycles.
-  const timer=setInterval(()=>{
-    if(!shouldPlay() || state.starting || videos.some(v=>v.paused || v.seeking))return;
-    if(videos.some(v=>v.readyState<3)){stop();play();return;}
-    const drift=videos[0].currentTime-videos[1].currentTime;
-    if(Math.abs(drift)>.18){stop();play();}
-    else videos[1].playbackRate=Math.abs(drift)<.015?1:drift>0?1.04:.96;
-  },100);
-  videos.forEach(v=>{
-    v.addEventListener('waiting',()=>{if(shouldPlay() && !state.starting && !v.seeking){stop();play();}});
-    v.addEventListener('ended',()=>{stop();videos.forEach(x=>x.currentTime=0);play();});
-  });
-  button.addEventListener('click',()=>{state.paused=!state.paused;update();state.paused?stop():play();});
-  state.play=play;state.stop=stop;update();return state;
+const reducedMotion=matchMedia('(prefers-reduced-motion: reduce)');
+const comparisons=[...document.querySelectorAll('[data-pair]')].map(row=>{
+ const videos=[...row.querySelectorAll('video')],button=row.querySelector('.pair-toggle'),status=row.querySelector('.pair-status');
+ const state={row,visible:false,paused:reducedMotion.matches,loaded:false,loading:null,starting:false};
+ const wanted=()=>state.visible&&!state.paused&&!document.hidden;
+ const update=()=>{button.textContent=state.paused?'Play videos':'Pause videos';button.setAttribute('aria-label',`${state.paused?'Play':'Pause'} both videos: ${row.querySelector('h4').textContent}`);};
+ const stop=()=>videos.forEach(v=>v.pause());
+ async function load(){
+  if(state.loaded)return;
+  if(state.loading)return state.loading;
+  status.textContent='Loading videos…';
+  // Buffer each separate file once, so playback and seeking no longer depend on network delivery.
+  state.loading=(async()=>{
+   const blobs=await Promise.all(videos.map(async v=>{const r=await fetch(v.dataset.src);if(!r.ok)throw Error('Video unavailable');return r.blob();}));
+   await Promise.all(videos.map((v,i)=>new Promise((resolve,reject)=>{
+    const cleanup=()=>{v.removeEventListener('canplay',ok);v.removeEventListener('error',fail);};
+    const ok=()=>{cleanup();resolve();},fail=()=>{cleanup();reject(Error('Video could not be decoded'));};
+    v.addEventListener('canplay',ok);v.addEventListener('error',fail);v.loop=true;v.src=URL.createObjectURL(blobs[i]);v.load();
+   })));
+   state.loaded=true;status.textContent='';
+  })().catch(e=>{state.loading=null;throw e;});
+  return state.loading;
+ }
+ async function play(){
+  if(!wanted()||state.starting)return;
+  state.starting=true;
+  try{
+   await load();if(!wanted())return;
+   videos[1].currentTime=videos[0].currentTime;
+   await Promise.all(videos.map(v=>v.play()));
+   if(!wanted())stop();
+  }catch(e){stop();state.paused=true;update();status.textContent='Could not load videos. Press Play videos to retry.';}
+  finally{state.starting=false;}
+ }
+ // Use LightInteraction's small drift correction without interrupting both players.
+ function sync(){
+  if(state.loaded&&wanted()&&!videos.some(v=>v.paused||v.seeking)&&Math.abs(videos[1].currentTime-videos[0].currentTime)>.06)videos[1].currentTime=videos[0].currentTime;
+  requestAnimationFrame(sync);
+ }
+ requestAnimationFrame(sync);
+ button.addEventListener('click',()=>{state.paused=!state.paused;update();state.paused?stop():play();});
+ state.play=play;state.stop=stop;update();return state;
 });
-const comparisonObserver=new IntersectionObserver(entries=>{
-  entries.forEach(entry=>{
-    const s=comparisons.find(x=>x.row===entry.target);s.visible=entry.isIntersecting;s.visible?s.play():s.stop();
-  });
-},{threshold:.15});
-comparisons.forEach(s=>comparisonObserver.observe(s.row));
+const rowsObserver=new IntersectionObserver(entries=>entries.forEach(e=>{const s=comparisons.find(s=>s.row===e.target);s.visible=e.isIntersecting;s.visible?s.play():s.stop();}),{threshold:.1});
+comparisons.forEach(s=>rowsObserver.observe(s.row));
 document.addEventListener('visibilitychange',()=>comparisons.forEach(s=>document.hidden?s.stop():s.visible&&s.play()));
 
 $('copy-citation').addEventListener('click', async () => {
