@@ -10,6 +10,7 @@
 
 <p align="center">
   <a href="https://jiacheng-lu03.github.io/NanoKV/"><b>🌐 Project Page</b></a> |
+  <a href="https://huggingface.co/jiacheng1234/NanoKV"><b>🤗 Weights</b></a> |
   <a href="#quick-start"><b>🚀 Quick Start</b></a> |
   <a href="train/README.md"><b>🏋️ Training</b></a> |
   <a href="infer/README.md"><b>🎥 Inference</b></a> |
@@ -38,6 +39,8 @@ The teaser shows example rollouts from the paper. Its PSNR annotations describe
 the displayed examples; dataset-average quality is reported in the results below.
 
 ## 🔥 News
+
+- **2026-11-04:** Released [NanoKV and NanoKV-Fast checkpoints](https://huggingface.co/jiacheng1234/NanoKV) for all three backbones.
 
 - **2026-11-04:** Released NanoKV and NanoKV-Fast implementations for all three
   backbones, with data collection, codec fitting, reader fitting, inference,
@@ -141,9 +144,33 @@ Prepare the original backbone checkpoints using the upstream instructions
 linked in the [setup guide](docs/SETUP.md). NanoKV uses a fitted `codec.pt`;
 NanoKV-Fast additionally uses reader weights and their manifest.
 
-**Codec and reader downloads are planned for Hugging Face.** The training guides
-produce the same artifact types locally. Use the [artifact guide](configs/README.md)
-to bind your files to the corresponding inference configuration.
+**Download the released codecs and Fast readers from [Hugging Face](https://huggingface.co/jiacheng1234/NanoKV).**
+
+| Backbone | Checkpoint directory | Manifest model name |
+|---|---|---|
+| HY-WorldPlay | [`hy-worldplay`](https://huggingface.co/jiacheng1234/NanoKV/tree/main/hy-worldplay) | `hy` |
+| LingBot-World 2.0 | [`lingbot-world-2.0`](https://huggingface.co/jiacheng1234/NanoKV/tree/main/lingbot-world-2.0) | `lingbot` |
+| Matrix-Game 3.5 | [`matrix-game-3.5`](https://huggingface.co/jiacheng1234/NanoKV/tree/main/matrix-game-3.5) | `mg` |
+
+From the NanoKV code checkout, download one backbone (HY example):
+
+```bash
+hf download jiacheng1234/NanoKV --include "hy-worldplay/*" --local-dir ./checkpoints
+export ARTIFACTS="$PWD/checkpoints/hy-worldplay"
+(cd "$ARTIFACTS" && sha256sum -c SHA256SUMS)
+```
+
+For NanoKV-Fast, bind the reader manifest to your local download location:
+
+```bash
+python -m nanokv.prepare_artifacts --model hy \
+  --artifacts "$ARTIFACTS" --output "$ARTIFACTS/manifest.json"
+```
+
+For another backbone, substitute its checkpoint directory and model name from
+the table. To download all three, omit `--include "hy-worldplay/*"`.
+See the [artifact guide](configs/README.md) and [inference guide](infer/README.md)
+for profiles and generation commands.
 
 <a id="quick-start"></a>
 ## 🚀 Quick Start
@@ -311,7 +338,7 @@ NanoKV/
 - [x] Fast attention-sample collection, reader fitting, and assembly
 - [x] Inference profiles and baseline configurations
 - [x] Video-pair evaluation and reproduction guides
-- [ ] Hugging Face codec and reader checkpoints
+- [x] [Hugging Face codec and reader checkpoints](https://huggingface.co/jiacheng1234/NanoKV)
 
 ## ❓ FAQ
 

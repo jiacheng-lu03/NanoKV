@@ -346,3 +346,4 @@ pre{font-size:17px;line-height:1.7}
 }
 .wordmark{font-size:20px}
 .original-method img{min-width:1100px}
+@media(max-width:760px){.resource-list a:last-child{grid-column:2/-1}}
