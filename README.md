@@ -1,118 +1,371 @@
-<div align="center">
+<h1 align="center">NanoKV</h1>
+<h3 align="center">High-Ratio KV Cache Compression for Autoregressive Video Generation</h3>
 
-# NanoKV: High-Ratio KV Cache Compression for Autoregressive Video Generation
+<p align="center">
+  Jiacheng Lu<sup>1</sup> · Haoyi Zhu<sup>2</sup> · Sipei Yi<sup>1</sup> ·
+  Enze Xie<sup>2</sup> · Cheng Zhuo<sup>1</sup> · Yu Li<sup>1,*</sup><br>
+  <sup>1</sup> Zhejiang University &nbsp; <sup>2</sup> NVIDIA &nbsp; *Corresponding author
+</p>
 
-### Generation-aware KV compression with a frozen video backbone
+<p align="center">
+  <a href="https://jiacheng-lu03.github.io/NanoKV/"><img src="https://img.shields.io/badge/Project-Page-063BEE" alt="Project page"></a>
+  <a href="docs/SETUP.md"><img src="https://img.shields.io/badge/Guide-Installation-063BEE" alt="Installation guide"></a>
+  <a href="train/README.md"><img src="https://img.shields.io/badge/Guide-Training-063BEE" alt="Training guide"></a>
+  <a href="infer/README.md"><img src="https://img.shields.io/badge/Guide-Inference-063BEE" alt="Inference guide"></a>
+</p>
 
-Jiacheng Lu¹ · Haoyi Zhu² · Sipei Yi¹ · Enze Xie² · Cheng Zhuo¹ · Yu Li¹*
+<p align="center">
+  <a href="#method"><b>Method</b></a> ·
+  <a href="#results"><b>Results</b></a> ·
+  <a href="#quick-start"><b>Quick Start</b></a> ·
+  <a href="#models"><b>Supported Models</b></a> ·
+  <a href="#training"><b>Training</b></a> ·
+  <a href="#citation"><b>Citation</b></a>
+</p>
 
-¹ Zhejiang University &nbsp; ² NVIDIA &nbsp; *Corresponding author
+**NanoKV is a frozen-backbone framework for generation-aware high-ratio KV compression.**
+It preserves how compressed history affects video generation through different
+fitting objectives for Keys and Values. Optional **NanoKV-Fast** reuses the same
+compressed coefficients for mixed-dimensional attention.
 
-[![Project Page](https://img.shields.io/badge/Project-Page-0055AA)](https://jiacheng-lu03.github.io/NanoKV/)
+<p align="center">
+  <a href="docs/assets/teaser.png"><img src="docs/assets/teaser.png" width="100%" alt="Original and NanoKV rollouts on HY-WorldPlay, Matrix-Game 3.5, and LingBot-World 2.0, with KV storage and peak GPU memory comparisons"></a>
+</p>
 
-**[🌐 Project](https://jiacheng-lu03.github.io/NanoKV/) · [🚀 Inference](infer/README.md) · [🏋️ Training](train/README.md) · [⚙️ Setup](docs/SETUP.md)**
+<p align="center">
+  <b>Up to 26.09× effective KV compression · Up to 35.9% lower peak GPU memory · Frozen video backbone</b>
+</p>
 
-</div>
+The teaser shows example rollouts from the paper. Its PSNR annotations describe
+the displayed examples; dataset-average quality is reported in the results below.
 
-## 📖 Introduction
+## 🔥 News
 
-NanoKV compresses historical key–value caches for autoregressive video generation.
-It combines shared-center residual coding and low-bit coefficients with
-**generation-aware, role-specific K/V fitting**: Key decoders are aligned to
-downstream block outputs, while Value codecs are fitted through the deployed
-quantization path. The video backbone stays frozen.
-
-**NanoKV-Fast** optionally reuses the same compressed coefficients for
-mixed-dimensional attention. Its model-specific configurations balance generation
-quality, cache storage, and historical-attention computation.
+- **2026-11-04:** Released NanoKV and NanoKV-Fast implementations for all three
+  backbones, with data collection, codec fitting, reader fitting, inference,
+  baseline configurations, and video-pair evaluation guides.
 
 ## ✨ Highlights
 
-- **Three video backbones:** HY-WorldPlay, LingBot-World 2.0, and Matrix-Game 3.5.
-- **Two inference modes:** NanoKV for compression and NanoKV-Fast for optional
-  attention acceleration.
-- **Complete fitting workflow:** collect KV samples, fit residual representations
-  and codecs, fit Fast readers, and export inference artifacts.
-- **Shared command interface:** model-specific implementations behind common
-  training, inference, and evaluation entrypoints.
+- **Generation-aware compression.** Optimize the effect of compressed history on
+  downstream generation, beyond local KV reconstruction alone.
+- **Different objectives for K and V.** Key block-output alignment preserves
+  downstream features; Value quantization-aware fitting preserves low-bit
+  reconstruction fidelity.
+- **High effective compression.** On HY-WorldPlay, NanoKV achieves **26.09×**
+  effective compression versus KVTC's **13.50×**, while improving reference PSNR
+  from **18.56 to 19.56 dB**.
+- **Optional attention acceleration.** NanoKV-Fast reduces historical-attention
+  computation using the same stored coefficients, with a configurable mix of
+  full- and low-dimensional reads.
+- **Three backbone integrations.** HY-WorldPlay, LingBot-World 2.0, and
+  Matrix-Game 3.5 share collection, training, and inference entrypoints.
 
+<a id="method"></a>
+## 🧩 How NanoKV Works
+
+<p align="center">
+  <a href="docs/assets/method.png"><img src="docs/assets/method.png" width="100%" alt="NanoKV encoding, role-specific Key and Value fitting, and optional mixed-dimensional attention"></a>
+</p>
+
+1. **Represent history compactly.** Store shared content in cluster centers and
+   encode token-specific residuals jointly across heads and channels into
+   low-bit coefficients.
+2. **Fit Keys for their downstream effect.** Align Key decoder outputs through
+   the frozen Transformer block, directly constraining block-output differences.
+3. **Fit Values through quantization.** Optimize the Value encoder and decoder
+   through the deployed quantization path to reduce low-bit reconstruction error.
+4. **Choose how to read the cache.** NanoKV reconstructs full-dimensional KV.
+   NanoKV-Fast uses fitted readers to construct mixed-dimensional features,
+   retaining full-dimensional attention for protected history and sensitive
+   heads or layers. Outputs from separate history partitions are merged.
+
+| | NanoKV | NanoKV-Fast |
+|---|---|---|
+| Stored representation | Shared centers + low-bit residual coefficients | Same compressed coefficients |
+| Attention access | Full-dimensional KV decoding | Mixed-dimensional KV decoding |
+| Additional fitting | K/V codec fitting | Reader / projection fitting |
+| Main objective | High-ratio compression with fidelity preservation | Lower attention computation with a quality–efficiency trade-off |
+| Video backbone | Frozen | Frozen |
+
+The model-specific fitting recipes are described in the
+[training guides](train/README.md); the final head allocations and routing
+settings are included in [configs/](configs/README.md).
+
+<a id="results"></a>
+## 📊 Main Results
+
+Results at the paper's **nominal 32× coefficient-compression setting**.
+Quality is averaged over **400 videos per configuration**: 100 VBench-I2V images
+with four camera actions each. Runtime is measured on a **single NVIDIA A100**.
+PSNR measures fidelity to the matched Original rollout.
+
+| Backbone | Method | PSNR ↑ (dB) | Total KV ↓ (GiB) | Effective KV compression ↑ | E2E speedup vs. Original ↑ |
+|---|---|---:|---:|---:|---:|
+| HY-WorldPlay | KVTC | 18.56 | 1.55 | 13.50× | 0.92× |
+| HY-WorldPlay | **NanoKV** | **19.56** | **0.80** | **26.09×** | 0.96× |
+| HY-WorldPlay | **NanoKV-Fast** | 19.04 | 1.02 | 20.53× | **1.06×** |
+| Matrix-Game 3.5 | KVTC | 18.83 | 1.24 | 9.28× | 0.57× |
+| Matrix-Game 3.5 | **NanoKV** | **19.08** | **0.80** | **14.26×** | 0.92× |
+| Matrix-Game 3.5 | **NanoKV-Fast** | 18.79 | 0.96 | 11.94× | **1.04×** |
+| LingBot-World 2.0 | KVTC | 20.10 | 4.73 | 4.38× | 0.79× |
+| LingBot-World 2.0 | **NanoKV** | **20.81** | **1.46** | **14.18×** | 0.93× |
+| LingBot-World 2.0 | **NanoKV-Fast** | 20.68 | 1.78 | 11.62× | **0.98×** |
+
+Effective compression includes additional storage; it differs from the nominal
+coefficient budget. E2E speedup is Original latency divided by method latency.
+See [full results and metric definitions](docs/RESULTS.md) for Original, QVG,
+TurboQuant, KVTC, SSIM, LPIPS, and VBench.
+
+### Attention computation with NanoKV-Fast
+
+| Backbone | Historical-attention computation saved | All visual-attention computation saved |
+|---|---:|---:|
+| HY-WorldPlay | 37.93% | 32.31% |
+| Matrix-Game 3.5 | 20.83% | 15.00% |
+| LingBot-World 2.0 | 34.32% | 24.51% |
+
+These percentages measure attention arithmetic at the nominal 32× setting.
+End-to-end gains also depend on the attention runtime share and codec/reader
+overhead: Fast exceeds Original's speed on HY and MG, and is slightly slower
+on LingBot in the reported configuration.
+
+<a id="models"></a>
+## 📦 Supported Models and Artifacts
+
+| Backbone | Command name | Profile length | Inference | Codec training |
+|---|---|---:|---|---|
+| HY-WorldPlay | `hy` | 253 frames | [Guide](infer/README.md#hy-worldplay) | [Guide](train/hy.md) |
+| LingBot-World 2.0 | `lingbot` | 125 frames | [Guide](infer/README.md#lingbot-world-20) | [Guide](train/lingbot.md) |
+| Matrix-Game 3.5 | `mg` | 169 frames | [Guide](infer/README.md#matrix-game-35) | [Guide](train/mg.md) |
+
+Prepare the original backbone checkpoints using the upstream instructions
+linked in the [setup guide](docs/SETUP.md). NanoKV uses a fitted `codec.pt`;
+NanoKV-Fast additionally uses reader weights and their manifest.
+
+**Codec and reader downloads are planned for Hugging Face.** The training guides
+produce the same artifact types locally. Use the [artifact guide](configs/README.md)
+to bind your files to the corresponding inference configuration.
+
+<a id="quick-start"></a>
 ## 🚀 Quick Start
 
-### 1. Clone and set up one model
+### 1. Clone and install
 
 ```bash
 git clone https://github.com/jiacheng-lu03/NanoKV.git
 cd NanoKV
 ```
 
-Follow [environment setup](docs/SETUP.md). Each backbone uses its own Python 3.10
-environment; NanoKV and NanoKV-Fast share the environment for that backbone.
+Follow [environment setup](docs/SETUP.md) for your chosen backbone.
+The integrations use separate Python 3.10 environments; compression and Fast
+share the environment for a given model.
 
-### 2. Prepare the backbone and codec
+### 2. Generate a video with NanoKV
 
-Download the original model checkpoints using the upstream model instructions
-linked in the setup guide. For compressed inference, also prepare `codec.pt`;
-NanoKV-Fast additionally uses fitted reader files and their manifest.
-
-Codec and reader weights are planned for Hugging Face. Until those downloads
-are available, follow the [training guides](train/README.md) to produce them.
-The [artifact guide](configs/README.md) describes how to bind local artifacts
-to an inference profile.
-
-### 3. Generate a video
-
-| Model | Command name | Inference | Collection and training |
-|---|---|---|---|
-| HY-WorldPlay | `hy` | [Generate](infer/README.md#hy-worldplay) | [Train](train/hy.md) |
-| LingBot-World 2.0 | `lingbot` | [Generate](infer/README.md#lingbot-world-20) | [Train](train/lingbot.md) |
-| Matrix-Game 3.5 | `mg` | [Generate](infer/README.md#matrix-game-35) | [Train](train/mg.md) |
-
-Run all guide commands from the repository root. Supply **absolute paths** for
-your checkpoints, inputs, and outputs: the launcher runs the native model from
-its own integration directory. Options before `--` belong to the launcher;
-options after it belong to the model.
+The following example uses HY-WorldPlay. After preparing the base model,
+action-model checkpoint, and fitted codec, set your local paths:
 
 ```bash
-python infer/run.py hy                    # list inference stages
-python train/run.py hy                    # list fitting stages
-python train/run.py hy fit_value -- --help
+conda activate nanokv-hy
+export MODEL_PATH=/absolute/path/to/HunyuanVideo-1.5
+export ACTION_CKPT=/absolute/path/to/action_model/model.safetensors
+export ARTIFACTS=/absolute/path/to/hy_artifacts
+export INPUT_IMAGE=/absolute/path/to/input.png
+export RUN_DIR="$(pwd)/outputs/first_run"
+mkdir -p "$RUN_DIR"
+
+python -m nanokv.prepare_profile --model hy --artifacts "$ARTIFACTS" \
+  --output "$RUN_DIR/nanokv.json"
+
+CUDA_VISIBLE_DEVICES=0 python infer/run.py hy generate \
+  --profile "$RUN_DIR/nanokv.json" -- \
+  --model_path "$MODEL_PATH" --action_ckpt "$ACTION_CKPT" \
+  --image_path "$INPUT_IMAGE" --prompt "A mountain landscape" \
+  --pose left-31,right-32 --output_path "$RUN_DIR/nanokv"
 ```
 
-## 🏋️ Training
+The video is written to `$RUN_DIR/nanokv/gen.mp4`. Use a fresh run directory
+for another run; profile creation refuses to overwrite an existing file.
+For LingBot or MG, follow the model-specific commands in the
+[inference guide](infer/README.md).
 
-The workflow is **collection → residual basis fitting → K/V codec fitting →
-packed codec export → optional Fast reader fitting**.
+<details>
+<summary><b>Run NanoKV-Fast with the same HY codec</b></summary>
 
-Start with the [training overview](train/README.md), then use the model-specific
-guide. They specify input manifests, sample layouts, fitting commands, outputs,
-and the transition from training to inference. The [Fast guide](train/fast.md)
-starts from a fitted NanoKV codec and ends with a runnable Fast profile.
+After [fitting and assembling the readers](train/fast.md), point to their manifest:
 
-## 📊 Evaluation
+```bash
+export READER_MANIFEST=/absolute/path/to/assembled_readers/manifest.json
+python -m nanokv.prepare_profile --model hy --variant fast \
+  --artifacts "$ARTIFACTS" --manifest "$READER_MANIFEST" \
+  --output "$RUN_DIR/fast.json"
 
-The [inference guide](infer/README.md#baselines) includes Original, KVTC, QVG,
-and TurboQuant profiles. Compare videos with identical input images, prompts,
-actions, seeds, frame counts, and resolutions using
-[frame-aligned metrics](infer/README.md#video-metrics).
+CUDA_VISIBLE_DEVICES=0 python infer/run.py hy generate_fast \
+  --profile "$RUN_DIR/fast.json" -- \
+  --model_path "$MODEL_PATH" --action_ckpt "$ACTION_CKPT" \
+  --image_path "$INPUT_IMAGE" --prompt "A mountain landscape" \
+  --pose left-31,right-32 --output_path "$RUN_DIR/fast"
+```
 
-## 🗂️ Repository Layout
+The binder verifies that the reader manifest matches the codec. Both runs use
+the same input image, prompt, camera actions, and profile generation settings.
+
+</details>
+
+All commands run from the repository root. Use **absolute paths** for your
+weights, data, and outputs. Arguments before `--` belong to the shared
+launcher; arguments after it belong to the native model.
+
+<a id="training"></a>
+## 🏋️ Train NanoKV and NanoKV-Fast
+
+The video backbone remains frozen throughout fitting.
 
 ```text
-nanokv/    Shared launch and artifact-binding utilities
-models/    Three backbone integrations, each with compression/ and fast/
-configs/   Inference profiles, codec budgets, and fixed head allocations
-train/     Collection, codec fitting, and Fast reader fitting guides/entrypoints
-infer/     Inference guide and entrypoint
-eval/      Frame-aligned video metrics
-docs/      Environment setup and project page
+Images + prompts + actions
+          │
+          ▼
+   Collect KV samples
+          │
+          ▼
+   Fit residual bases
+          │
+          ▼
+   Fit K/V codecs ───────────────► Export codec.pt ─────► NanoKV
+                                         │
+                                         ▼
+                               Collect attention samples
+                                         │
+                                         ▼
+                                Fit and assemble readers
+                                         │
+                                         ▼
+                                    NanoKV-Fast
 ```
 
-See [model integration layout](models/README.md) for the native modules and
-the naming conventions used by the training and inference code.
+| Stage | What it produces | Instructions |
+|---|---|---|
+| KV collection and residual fitting | Paired KV samples and residual bases | [HY](train/hy.md) · [LingBot](train/lingbot.md) · [MG](train/mg.md) |
+| Role-specific codec fitting | Fitted K/V components and packed `codec.pt` | [Training overview](train/README.md) |
+| Fast reader fitting | Reader experts, fixed allocation, and manifest | [Fast guide](train/fast.md) |
+| Inference configuration | Profile bound to your codec and readers | [Artifact guide](configs/README.md#locally-trained-artifacts) |
+
+The guides specify split formats, expected sample counts, fitting commands, and
+the outputs consumed by each subsequent stage. Keep fitting and evaluation
+images separate, including all action trajectories from the same image.
+
+<a id="evaluation"></a>
+## 🔬 Evaluate and Compare
+
+Profiles for **Original, QVG, TurboQuant, and KVTC** are included alongside
+NanoKV and NanoKV-Fast. Use identical images, prompts, actions, seeds, frame
+counts, and resolution for paired comparisons. Baseline-specific prerequisites
+are listed in the [inference guide](infer/README.md#baselines).
+
+After generating an Original reference and a compressed video:
+
+```bash
+python -m pip install lpips torchmetrics scikit-image
+python eval/video_pair.py \
+  --reference /absolute/path/to/original.mp4 \
+  --candidate /absolute/path/to/nanokv.mp4 \
+  --output /absolute/path/to/metrics.json
+```
+
+The evaluator reports per-frame PSNR, SSIM, and LPIPS, with both all-frame and
+generated-frame means. The latter excludes the shared input frame.
+The paper's VBench results average subject consistency, background consistency,
+motion smoothness, aesthetic quality, and imaging quality.
+
+## 📚 Documentation
+
+| I want to… | Start here |
+|---|---|
+| Install a model environment and obtain its backbone | [Setup](docs/SETUP.md) |
+| Generate a video with NanoKV or Fast | [Inference](infer/README.md) |
+| Collect fitting samples and train a codec | [Training](train/README.md) |
+| Fit low-dimensional attention readers | [NanoKV-Fast training](train/fast.md) |
+| Use my own fitted weights | [Profiles and artifacts](configs/README.md) |
+| Compare numerical results with the paper | [Results](docs/RESULTS.md) |
+| Find the native implementation or extend it | [Model layout](models/README.md) |
+
+<details>
+<summary><b>Repository layout</b></summary>
+
+```text
+NanoKV/
+├── nanokv/        Shared launch and artifact-binding utilities
+├── models/        Three backbones, each with compression/ and fast/
+├── configs/       Budgets, routing policies, and inference profiles
+├── train/         Collection, fitting, and reader export
+├── infer/         Inference entrypoint and model-specific instructions
+├── eval/          Frame-aligned video metrics
+└── docs/          Setup, results, paper figures, and project page
+```
+
+</details>
+
+## ✅ Release Status
+
+- [x] NanoKV and NanoKV-Fast integrations for all three backbones
+- [x] KV collection, codec fitting, and export
+- [x] Fast attention-sample collection, reader fitting, and assembly
+- [x] Inference profiles and baseline configurations
+- [x] Video-pair evaluation and reproduction guides
+- [ ] Hugging Face codec and reader checkpoints
+
+## ❓ FAQ
+
+<details>
+<summary><b>Does NanoKV require fine-tuning the video generator?</b></summary>
+
+The original video backbone is frozen. NanoKV fits separate codec parameters;
+NanoKV-Fast also fits low-dimensional reader/projection parameters. Follow the
+model-specific recipes for the components used by each backbone.
+
+</details>
+
+<details>
+<summary><b>Why is effective KV compression smaller than the nominal 32× budget?</b></summary>
+
+The nominal budget describes the coefficient representation. Effective KV
+compression also accounts for centers, indices, scales, operators, and any
+protected full-dimensional history, as specified by the paper's storage accounting.
+
+</details>
+
+<details>
+<summary><b>Why is the attention-computation saving larger than the end-to-end speedup?</b></summary>
+
+Fast accelerates historical attention. Other generation stages still take time,
+and codec decoding and feature mappings add overhead. Use the E2E column for
+whole-video runtime comparisons and the computation table for attention arithmetic.
+
+</details>
+
+<a id="citation"></a>
+## 📖 Citation
+
+If you use NanoKV in your research, please cite:
+
+```bibtex
+@misc{lu2026nanokv,
+  title={NanoKV: High-Ratio KV Cache Compression for Autoregressive Video Generation},
+  author={Jiacheng Lu and Haoyi Zhu and Sipei Yi and Enze Xie and Cheng Zhuo and Yu Li},
+  year={2026},
+  url={https://github.com/jiacheng-lu03/NanoKV}
+}
+```
 
 ## 🤝 Acknowledgements and Licenses
 
-We build on HY-WorldPlay, LingBot-World, Matrix-Game, and their dependencies.
+This implementation builds on
+[HY-WorldPlay](https://github.com/Tencent-Hunyuan/HY-WorldPlay),
+[LingBot-World](https://github.com/Robbyant/lingbot-world),
+[Matrix-Game](https://github.com/SkyworkAI/Matrix-Game), and their dependencies.
+We thank the authors of the baseline methods and VBench for their work.
+
 Included upstream code retains its original license and notices; see
-[THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md). Follow the respective upstream
-terms when obtaining and using backbone weights.
+[THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md). Backbone weights remain subject
+to their respective upstream terms.
