@@ -14,7 +14,7 @@
         "original": {
           "src": "assets/videos/hy-teaser-original.mp4",
           "source_sha256": "c364d110a22dddcdedef8ae87104d60db0c0ad7bc4b7805204d9511adaa7c3f1",
-          "preview_sha256": "81d9eaad1557c20ff913e7a0f34fc755555ea4809470601641a1e4706b756850",
+          "preview_sha256": "4b3bbc17ce962deccf401a4815aef8e3339ff0af3562622d27e25a48fc01e82a",
           "frames": 253,
           "fps": 24.0,
           "duration": 10.541666666666666
@@ -22,7 +22,7 @@
         "nanokv": {
           "src": "assets/videos/hy-teaser-nanokv.mp4",
           "source_sha256": "b989b0c6bb261ed1af0af0122addc3cd3023f8da6b42923144e0d1c0e01302da",
-          "preview_sha256": "80e948ae6d6583d4f8f052cef2b72b06e47dda75346cf87176f16ea6f3ad1c8f",
+          "preview_sha256": "3d83f5041d26e72303d41034c8d171883aad8af8d3db0720759419bd14de7f33",
           "frames": 253,
           "fps": 24.0,
           "duration": 10.541666666666666
@@ -50,7 +50,7 @@
         "original": {
           "src": "assets/videos/hy-appendix-original.mp4",
           "source_sha256": "4b9fc4dc7f336d8db448b87305275a4ca735d556d3eed99ac81d4c907c6fba72",
-          "preview_sha256": "b4858ea65c4c956c97daac1d58b48107938916aa4550c87e0115bb89d34a7d57",
+          "preview_sha256": "2abb2de0ab8b1ac31f76a80cbd99f5772867f9a16becf1380bcb01aa5dbafd2b",
           "frames": 253,
           "fps": 24.0,
           "duration": 10.541666666666666
@@ -66,7 +66,7 @@
         "fast": {
           "src": "assets/videos/hy-appendix-fast.mp4",
           "source_sha256": "c64e6f0069f93d694ce41dbcb8d3365d5b0134fa4aa8cecd10990582afcf40fb",
-          "preview_sha256": "91d36e64b19e078a445d70d35643c0c378fcef2c9a10cdc52cfae716e4d56636",
+          "preview_sha256": "7834524e6d296c30b533acd638224d3a113647f553a2581a997b61d9b82d8530",
           "frames": 253,
           "fps": 24.0,
           "duration": 10.541666666666666
@@ -86,7 +86,7 @@
         "original": {
           "src": "assets/videos/lingbot-teaser-original.mp4",
           "source_sha256": "eea92769585139c4986479c57695f00516d5fe91ffcac7c11824a7d42e80d4f3",
-          "preview_sha256": "6be2182d3dbc904666a550eb54dc79854508ddba85cfbdaf20e702138b019ee5",
+          "preview_sha256": "95c2ffc17f66b4d29749aeee92dba32688354823a7a94e92c7b4aa1d3cbcf352",
           "frames": 125,
           "fps": 16.0,
           "duration": 7.8125
@@ -94,7 +94,7 @@
         "nanokv": {
           "src": "assets/videos/lingbot-teaser-nanokv.mp4",
           "source_sha256": "16e5d342fcdcf5079d00a91a02df150e75525a77d58572e1cada9bd2adb7c7c1",
-          "preview_sha256": "d201885601fc2f8ac510dd4f694f56f28e1e1e56d6f47ce33b1d67e5da329cc2",
+          "preview_sha256": "c48f8bf257d27677d045281105765365c550d10c15ae4da16550df5367250642",
           "frames": 125,
           "fps": 16.0,
           "duration": 7.8125
@@ -122,7 +122,7 @@
         "original": {
           "src": "assets/videos/lingbot-appendix-original.mp4",
           "source_sha256": "5ff7f67eaf43f5f0bec97a970ab30cf242e294e8ad63cf4a19092758f93edd8b",
-          "preview_sha256": "1223e50472d37499d78558bfdfa7eb38d692c8c4e303c9b96c3b03d80d255844",
+          "preview_sha256": "f7d76f4c11f78f6d9966b1aae9f5da519c1579e8a1fae32002dca8492b998a5c",
           "frames": 125,
           "fps": 16.0,
           "duration": 7.8125
@@ -138,7 +138,7 @@
         "fast": {
           "src": "assets/videos/lingbot-appendix-fast.mp4",
           "source_sha256": "45ae45b00e14d0f497f1099064e9f6b48b313b0d1bccdf7fe21ac3f3d9287d51",
-          "preview_sha256": "a56b2ef88a3ae180343cace76f0a2667d363e7d3bffe377f720f45baca55fc2c",
+          "preview_sha256": "5a28981551d280e74404f79728850f2aeff87542dfd88cc42b3c6ceed461bccc",
           "frames": 125,
           "fps": 16.0,
           "duration": 7.8125
@@ -158,7 +158,7 @@
         "original": {
           "src": "assets/videos/mg-teaser-original.mp4",
           "source_sha256": "3ed8b97f98673e669d8a0785c9848d15987bbdc3c199e73d297add536e572042",
-          "preview_sha256": "0453d2e8030f1719d82703cc787bf0842c398db17a55aaf6eedb3e959e6c2c3d",
+          "preview_sha256": "acdf463bebcad95f9d88ccb71472a463768e5c582878744f13c8f36c847fe2ae",
           "frames": 169,
           "fps": 16.0,
           "duration": 10.5625
@@ -166,7 +166,7 @@
         "nanokv": {
           "src": "assets/videos/mg-teaser-nanokv.mp4",
           "source_sha256": "c5bc20effaba2c9a2127014f7af6c36314610540c6f94a813d16c4f80ab02432",
-          "preview_sha256": "b55fed3f3e5b1069fcc38e6b99af6e5193006167d0eee5b130dd14fa17b85e40",
+          "preview_sha256": "1a1549a62ec1c78e2c94fc1d94b4f1034765fe01579264d400324c3cc28f8402",
           "frames": 169,
           "fps": 16.0,
           "duration": 10.5625
@@ -194,7 +194,7 @@
         "original": {
           "src": "assets/videos/mg-appendix-original.mp4",
           "source_sha256": "2616a3dc3e08a026cf0033147c6829097dd16ded65471f8b65120fdccb94e24e",
-          "preview_sha256": "a6c05d93b0f63d0680a8bf4dc8f6a245bc85ca309126e1d53caf115317d86b4e",
+          "preview_sha256": "8741e02ecd7995ec9e427c2b6df33110d758cf1f1c7c33759b20de539de47d01",
           "frames": 169,
           "fps": 16.0,
           "duration": 10.5625
@@ -210,7 +210,7 @@
         "fast": {
           "src": "assets/videos/mg-appendix-fast.mp4",
           "source_sha256": "75e725a96d95bc64879707ab8f34358e1ebb413b692aef639c1870b0e5f701e1",
-          "preview_sha256": "a11740c2153d47cf3d75a825109be954987b36135364b933ef7ac2510a84fae8",
+          "preview_sha256": "eaa7d93652fa1334ad08818a80fa5aca620032ac24443bb94d290f151847d98a",
           "frames": 169,
           "fps": 16.0,
           "duration": 10.5625

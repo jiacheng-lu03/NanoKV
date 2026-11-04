@@ -10,9 +10,9 @@
 <meta property="og:image" content="https://jiacheng-lu03.github.io/NanoKV/assets/teaser.png">
 <meta property="og:type" content="website">
 <link rel="icon" href="data:,">
-<link rel="stylesheet" href="style.css?v=20261104-10">
+<link rel="stylesheet" href="style.css?v=20261104-11">
 <title>NanoKV | High-Ratio KV Cache Compression</title>
-<script src="app.js?v=20261104-9" defer></script>
+<script src="app.js?v=20261104-11" defer></script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -40,8 +40,7 @@
 </section>
 <section id="method" class="method-section"><div class="section-wrap content-section">
 <div class="section-heading"><div><p class="eyebrow">02 / THE METHOD</p><h2>Generation-aware compression.<br><span class="muted">Different objectives for Keys and Values.</span></h2></div><p>High-ratio compression is more than reconstructing KV features. NanoKV preserves the downstream effect of compressed history on generation.</p></div>
-<div class="method-explainer"><article><span class="step-index">01</span><h3>A compact representation</h3><p>Shared centers capture common content. Joint head–channel residuals become low-bit coefficients.</p></article><article><span class="step-index">02</span><h3>Different roles. Different objectives.</h3><p><b>Keys:</b> align downstream block outputs.<br><b>Values:</b> fit reconstruction through the deployed quantization path.</p></article><article><span class="step-index">03</span><h3>Choose how to read</h3><p>NanoKV decodes full-dimensional KV. Optional Fast readers construct mixed-dimensional features from the same coefficients.</p></article></div>
-<a class="method-figure" href="assets/method.png" aria-label="Open the full-resolution NanoKV method diagram"><img src="assets/method.png" width="2400" height="1666" loading="lazy" alt="NanoKV overview: compact KV encoding, Key block-output alignment, Value quantization-aware fitting, and optional mixed-dimensional attention"><span>View full resolution ↗</span></a>
+<a class="method-figure" href="assets/method-dark.svg" aria-label="Open the NanoKV method diagram"><div class="method-diagram-scroll"><img src="assets/method-dark.svg" width="1280" height="640" loading="lazy" alt="Historical KV is encoded as shared centers and INT4 residual coefficients. Key decoders align block outputs; Value codecs fit through quantization. The compact representation supports full-dimensional NanoKV attention or optional mixed-dimensional NanoKV-Fast attention."></div><span>View full diagram ↗</span></a>
 <details class="abstract"><summary>Read the abstract <span aria-hidden="true">+</span></summary><p>Autoregressive video models rely on historical key–value (KV) caches to preserve scene consistency over extended rollouts, making KV storage and repeated attention over history a growing memory and computational bottleneck. Aggressive compression can degrade generation quality, while reconstructing full-dimensional KV leaves attention computation largely unchanged. We introduce NanoKV, a frozen-backbone framework for generation-aware high-ratio KV compression. NanoKV exploits redundancy across tokens and attention heads by storing shared content in cluster centers and encoding joint head–channel residuals into low-bit coefficients. Crucially, NanoKV uses different fitting objectives for Keys and Values according to their distinct roles in attention: Key decoders are optimized to preserve downstream block outputs, whereas Value encoders and decoders are fitted for faithful reconstruction through the deployed quantization path. Building on the same compressed representation, the optional NanoKV-Fast variant reuses the stored coefficients for mixed-dimensional attention, reducing computation without modifying the video backbone. Across three autoregressive video backbones, NanoKV consistently improves the quality–storage trade-off. On HY-WorldPlay, NanoKV achieves 26.09× effective KV compression—nearly twice that of KVTC—while improving PSNR by 1.0 dB. NanoKV-Fast retains 20.53× effective compression and achieves an approximately 1.15× end-to-end speedup over KVTC.</p></details>
 </div></section>
 <section id="results" class="section-wrap content-section">

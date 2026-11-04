@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="640" viewBox="0 0 1280 640" role="img" aria-labelledby="title desc">
+<title id="title">Generation-aware NanoKV compression</title>
+<desc id="desc">A frozen video backbone supplies historical KV. NanoKV stores shared centers and INT4 residual coefficients. Keys and Values use different fitting objectives. The same stored representation supports full-dimensional attention or optional mixed-dimensional attention.</desc>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10" fill="none" stroke="#9baec9" stroke-width="1.5"/></marker></defs>
+<rect width="1280" height="640" rx="12" fill="#111722"/>
+<g font-family="Inter,Arial,sans-serif" fill="#edf3fc">
+<text x="44" y="54" font-size="26" font-weight="600">Generation-aware high-ratio KV compression</text>
+<text x="44" y="88" font-size="19" fill="#aebed5">Video backbone remains frozen</text>
+<g fill="#172338" stroke="#4b6590" stroke-width="1.5">
+<rect x="44" y="165" width="180" height="160" rx="10"/>
+<rect x="280" y="145" width="330" height="200" rx="10"/>
+<rect x="666" y="165" width="220" height="160" rx="10"/>
+</g>
+<g text-anchor="middle">
+<text x="134" y="208" font-size="22" font-weight="600">Historical KV</text>
+<text x="134" y="249" font-size="20" fill="#88afff">Keys</text><text x="134" y="282" font-size="20" fill="#83d3c7">Values</text>
+<text x="445" y="186" font-size="23" font-weight="600">NanoKV codec</text>
+<text x="445" y="228" font-size="20" fill="#c2cee1">Shared-center residual coding</text>
+<text x="445" y="261" font-size="20" fill="#c2cee1">Joint head–channel encoding</text>
+<text x="445" y="306" font-size="20" fill="#88afff">Role-specific K/V fitting</text>
+<text x="776" y="208" font-size="22" font-weight="600">Compact KV</text>
+<text x="776" y="249" font-size="20" fill="#c2cee1">Shared centers</text>
+<text x="776" y="282" font-size="20" fill="#c2cee1">INT4 coefficients</text>
+</g>
+<g fill="none" stroke="#9baec9" stroke-width="1.7" marker-end="url(#arrow)"><path d="M224 245H268"/><path d="M610 245H654"/><path d="M886 245H918V190H946"/><path d="M886 245H918V316H946"/></g>
+<text x="1084" y="126" font-size="19" fill="#aebed5" text-anchor="middle">Choose a reading mode</text>
+<rect x="958" y="151" width="278" height="94" rx="10" fill="#182747" stroke="#729eff"/>
+<rect x="958" y="277" width="278" height="94" rx="10" fill="#14302f" stroke="#75c9bd"/>
+<g text-anchor="middle"><text x="1097" y="185" font-size="22" font-weight="600" fill="#9dbbff">NanoKV</text><text x="1097" y="218" font-size="19">Full-D decoding + attention</text><text x="1097" y="312" font-size="22" font-weight="600" fill="#8bd6cb">NanoKV-Fast · optional</text><text x="1097" y="345" font-size="19">Mixed-D decoding + attention</text></g>
+<path d="M44 411H1236" stroke="#344159"/>
+<text x="44" y="452" font-size="21" font-weight="600">Fit for their different roles in generation</text>
+<rect x="44" y="480" width="568" height="116" rx="10" fill="#16233b" stroke="#3b5682"/>
+<rect x="636" y="480" width="600" height="116" rx="10" fill="#142c2e" stroke="#3e6867"/>
+<text x="68" y="518" font-size="22" font-weight="600" fill="#9dbbff">Keys · decoder fitting</text>
+<text x="68" y="560" font-size="20">Preserve downstream block outputs</text>
+<text x="660" y="518" font-size="22" font-weight="600" fill="#8bd6cb">Values · encoder and decoder fitting</text>
+<text x="660" y="560" font-size="20">Reconstruct through the deployed quantization path</text>
+</g></svg>

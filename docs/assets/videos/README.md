@@ -9,7 +9,9 @@ configuration, selected from the existing 400-video evaluations.
 - Matrix-Game 3.5: `test_072_right_left`, `test_040_left_right`.
 
 The web previews use H.264, retain all frames at the original frame rate, and
-are resized to a maximum width of 960 pixels without cropping. They are silent,
+are resized without cropping. The displayed pairs use 720-pixel-wide streams
+with short keyframe intervals and fast-start metadata; the other previews
+have a maximum width of 960 pixels. They are silent,
 pre-rendered evaluation outputs; playback speed is not generation throughput.
 The images are poster frames from the corresponding NanoKV previews.
 

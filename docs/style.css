@@ -301,3 +301,11 @@ footer,footer div{font-size:.8rem;line-height:1.55}
 .comparison-videos{gap:24px}
 
 .metrics-wrap{max-width:1440px;padding-inline:clamp(22px,3vw,48px)}
+
+/* Consistent reading width across the project page. */
+#method>.section-wrap,#results,#resources>.section-wrap{max-width:1440px;padding-inline:clamp(22px,3vw,48px)}
+.results-layout{grid-template-columns:1fr}
+.method-figure{padding:0;background:transparent;border:1px solid #33415a;border-radius:12px;overflow:hidden}
+.method-figure span{padding:12px 20px;color:#aebed5}
+.method-diagram-scroll{overflow-x:auto}
+.method-diagram-scroll img{min-width:760px}
