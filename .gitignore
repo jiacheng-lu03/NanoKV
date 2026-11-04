@@ -19,3 +19,6 @@ logs/
 *.log
 *.tar.gz
 *.zip
+
+# Curated, web-ready paper demos for the public project page.
+!docs/assets/videos/*.mp4

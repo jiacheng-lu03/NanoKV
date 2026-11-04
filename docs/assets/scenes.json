@@ -1,0 +1,221 @@
+{
+  "description": "Selected evaluation clips from the paper teaser and appendix. Web previews are re-encoded at native frame rate, without cropping or temporal edits.",
+  "scenes": [
+    {
+      "id": "hy-teaser",
+      "model": "hy",
+      "model_name": "HY-WorldPlay",
+      "case": "test_067_left_right",
+      "title": "Alpine panorama",
+      "source_kind": "teaser",
+      "action": "left_right",
+      "poster": "assets/videos/hy-teaser.jpg",
+      "videos": {
+        "original": {
+          "src": "assets/videos/hy-teaser-original.mp4",
+          "source_sha256": "c364d110a22dddcdedef8ae87104d60db0c0ad7bc4b7805204d9511adaa7c3f1",
+          "preview_sha256": "81d9eaad1557c20ff913e7a0f34fc755555ea4809470601641a1e4706b756850",
+          "frames": 253,
+          "fps": 24.0,
+          "duration": 10.541666666666666
+        },
+        "nanokv": {
+          "src": "assets/videos/hy-teaser-nanokv.mp4",
+          "source_sha256": "b989b0c6bb261ed1af0af0122addc3cd3023f8da6b42923144e0d1c0e01302da",
+          "preview_sha256": "80e948ae6d6583d4f8f052cef2b72b06e47dda75346cf87176f16ea6f3ad1c8f",
+          "frames": 253,
+          "fps": 24.0,
+          "duration": 10.541666666666666
+        },
+        "fast": {
+          "src": "assets/videos/hy-teaser-fast.mp4",
+          "source_sha256": "e8ae976b8826e8b0aa4216ecdd7bb55d62c975ffa9d3abc29cee916096a1c96f",
+          "preview_sha256": "3043a7675201255d0693c2d98d5487554108a03adbcb0311b51f5b19c7210a18",
+          "frames": 253,
+          "fps": 24.0,
+          "duration": 10.541666666666666
+        }
+      }
+    },
+    {
+      "id": "hy-appendix",
+      "model": "hy",
+      "model_name": "HY-WorldPlay",
+      "case": "test_021_left_right",
+      "title": "Snow-covered cottage",
+      "source_kind": "appendix",
+      "action": "left_right",
+      "poster": "assets/videos/hy-appendix.jpg",
+      "videos": {
+        "original": {
+          "src": "assets/videos/hy-appendix-original.mp4",
+          "source_sha256": "4b9fc4dc7f336d8db448b87305275a4ca735d556d3eed99ac81d4c907c6fba72",
+          "preview_sha256": "b4858ea65c4c956c97daac1d58b48107938916aa4550c87e0115bb89d34a7d57",
+          "frames": 253,
+          "fps": 24.0,
+          "duration": 10.541666666666666
+        },
+        "nanokv": {
+          "src": "assets/videos/hy-appendix-nanokv.mp4",
+          "source_sha256": "98ef589f03043ae31c6edae132e722ac86ad66d667ea9807b71286b679a6d0f6",
+          "preview_sha256": "529fe640f086d1398779eaf7f145ade817880168a841042ff5cee8c90e4ffebe",
+          "frames": 253,
+          "fps": 24.0,
+          "duration": 10.541666666666666
+        },
+        "fast": {
+          "src": "assets/videos/hy-appendix-fast.mp4",
+          "source_sha256": "c64e6f0069f93d694ce41dbcb8d3365d5b0134fa4aa8cecd10990582afcf40fb",
+          "preview_sha256": "91d36e64b19e078a445d70d35643c0c378fcef2c9a10cdc52cfae716e4d56636",
+          "frames": 253,
+          "fps": 24.0,
+          "duration": 10.541666666666666
+        }
+      }
+    },
+    {
+      "id": "lingbot-teaser",
+      "model": "lingbot",
+      "model_name": "LingBot-World 2.0",
+      "case": "test_068_forward_backward",
+      "title": "Tropical coast",
+      "source_kind": "teaser",
+      "action": "forward_backward",
+      "poster": "assets/videos/lingbot-teaser.jpg",
+      "videos": {
+        "original": {
+          "src": "assets/videos/lingbot-teaser-original.mp4",
+          "source_sha256": "eea92769585139c4986479c57695f00516d5fe91ffcac7c11824a7d42e80d4f3",
+          "preview_sha256": "6be2182d3dbc904666a550eb54dc79854508ddba85cfbdaf20e702138b019ee5",
+          "frames": 125,
+          "fps": 16.0,
+          "duration": 7.8125
+        },
+        "nanokv": {
+          "src": "assets/videos/lingbot-teaser-nanokv.mp4",
+          "source_sha256": "16e5d342fcdcf5079d00a91a02df150e75525a77d58572e1cada9bd2adb7c7c1",
+          "preview_sha256": "d201885601fc2f8ac510dd4f694f56f28e1e1e56d6f47ce33b1d67e5da329cc2",
+          "frames": 125,
+          "fps": 16.0,
+          "duration": 7.8125
+        },
+        "fast": {
+          "src": "assets/videos/lingbot-teaser-fast.mp4",
+          "source_sha256": "cb0e71dfc7a4d80c91d2025d1a8d4ac7dc72b3dd279a96dacf31aad0773e1446",
+          "preview_sha256": "86880cd38f14ec6d0f86dd463d41e2a8a27ac3c9d612baeaa80d7dc0f6d0e42d",
+          "frames": 125,
+          "fps": 16.0,
+          "duration": 7.8125
+        }
+      }
+    },
+    {
+      "id": "lingbot-appendix",
+      "model": "lingbot",
+      "model_name": "LingBot-World 2.0",
+      "case": "test_024_right_left",
+      "title": "Lakeside pagoda",
+      "source_kind": "appendix",
+      "action": "right_left",
+      "poster": "assets/videos/lingbot-appendix.jpg",
+      "videos": {
+        "original": {
+          "src": "assets/videos/lingbot-appendix-original.mp4",
+          "source_sha256": "5ff7f67eaf43f5f0bec97a970ab30cf242e294e8ad63cf4a19092758f93edd8b",
+          "preview_sha256": "1223e50472d37499d78558bfdfa7eb38d692c8c4e303c9b96c3b03d80d255844",
+          "frames": 125,
+          "fps": 16.0,
+          "duration": 7.8125
+        },
+        "nanokv": {
+          "src": "assets/videos/lingbot-appendix-nanokv.mp4",
+          "source_sha256": "3cbe91f62350841ac16c8364e127ea374a64e12b1ac1af64038eab82d18c1e17",
+          "preview_sha256": "753ce2d43d4569c5834b55766ca051a4f81f1ad12370002ea42ecae7443315bd",
+          "frames": 125,
+          "fps": 16.0,
+          "duration": 7.8125
+        },
+        "fast": {
+          "src": "assets/videos/lingbot-appendix-fast.mp4",
+          "source_sha256": "45ae45b00e14d0f497f1099064e9f6b48b313b0d1bccdf7fe21ac3f3d9287d51",
+          "preview_sha256": "a56b2ef88a3ae180343cace76f0a2667d363e7d3bffe377f720f45baca55fc2c",
+          "frames": 125,
+          "fps": 16.0,
+          "duration": 7.8125
+        }
+      }
+    },
+    {
+      "id": "mg-teaser",
+      "model": "mg",
+      "model_name": "Matrix-Game 3.5",
+      "case": "test_072_right_left",
+      "title": "Karst lake",
+      "source_kind": "teaser",
+      "action": "right_left",
+      "poster": "assets/videos/mg-teaser.jpg",
+      "videos": {
+        "original": {
+          "src": "assets/videos/mg-teaser-original.mp4",
+          "source_sha256": "3ed8b97f98673e669d8a0785c9848d15987bbdc3c199e73d297add536e572042",
+          "preview_sha256": "0453d2e8030f1719d82703cc787bf0842c398db17a55aaf6eedb3e959e6c2c3d",
+          "frames": 169,
+          "fps": 16.0,
+          "duration": 10.5625
+        },
+        "nanokv": {
+          "src": "assets/videos/mg-teaser-nanokv.mp4",
+          "source_sha256": "c5bc20effaba2c9a2127014f7af6c36314610540c6f94a813d16c4f80ab02432",
+          "preview_sha256": "b55fed3f3e5b1069fcc38e6b99af6e5193006167d0eee5b130dd14fa17b85e40",
+          "frames": 169,
+          "fps": 16.0,
+          "duration": 10.5625
+        },
+        "fast": {
+          "src": "assets/videos/mg-teaser-fast.mp4",
+          "source_sha256": "b1865516253ca4c0a69a2281c635f99d6bf8d56205a6553d452d019f283441e7",
+          "preview_sha256": "206ac7ca756b01dd7669282a7e0bd66a1a26ce71b50639774b4265ce2e76c6b4",
+          "frames": 169,
+          "fps": 16.0,
+          "duration": 10.5625
+        }
+      }
+    },
+    {
+      "id": "mg-appendix",
+      "model": "mg",
+      "model_name": "Matrix-Game 3.5",
+      "case": "test_040_left_right",
+      "title": "Sunlit cafe",
+      "source_kind": "appendix",
+      "action": "left_right",
+      "poster": "assets/videos/mg-appendix.jpg",
+      "videos": {
+        "original": {
+          "src": "assets/videos/mg-appendix-original.mp4",
+          "source_sha256": "2616a3dc3e08a026cf0033147c6829097dd16ded65471f8b65120fdccb94e24e",
+          "preview_sha256": "a6c05d93b0f63d0680a8bf4dc8f6a245bc85ca309126e1d53caf115317d86b4e",
+          "frames": 169,
+          "fps": 16.0,
+          "duration": 10.5625
+        },
+        "nanokv": {
+          "src": "assets/videos/mg-appendix-nanokv.mp4",
+          "source_sha256": "7db04acb72f765bb3413c36654a436f2489f727150bb823bcb32f8490390410d",
+          "preview_sha256": "2a03fe82f51115f61a3ba80a0301d2f05bf4c8386173ce4dae5cedcf7c6839fc",
+          "frames": 169,
+          "fps": 16.0,
+          "duration": 10.5625
+        },
+        "fast": {
+          "src": "assets/videos/mg-appendix-fast.mp4",
+          "source_sha256": "75e725a96d95bc64879707ab8f34358e1ebb413b692aef639c1870b0e5f701e1",
+          "preview_sha256": "a11740c2153d47cf3d75a825109be954987b36135364b933ef7ac2510a84fae8",
+          "frames": 169,
+          "fps": 16.0,
+          "duration": 10.5625
+        }
+      }
+    }
+  ]
+}

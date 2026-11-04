@@ -1,52 +1,82 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="NanoKV: High-Ratio KV Cache Compression for Autoregressive Video Generation.">
-  <title>NanoKV | High-Ratio KV Cache Compression</title>
-  <style>
-    :root { color-scheme: light; --blue: #063bee; }
-    * { box-sizing: border-box; }
-    body { margin: 0; background: #fff; color: #202735; font-family: Arial, Helvetica, sans-serif; line-height: 1.6; }
-    main { max-width: 1040px; margin: 0 auto; padding: 88px 24px 48px; text-align: center; }
-    .name { margin: 0 0 12px; color: var(--blue); font-size: clamp(48px, 9vw, 76px); font-weight: 750; letter-spacing: -2px; line-height: 1.1; }
-    h1 { max-width: 900px; margin: 0 auto 28px; font-size: clamp(25px, 4vw, 38px); line-height: 1.25; letter-spacing: -0.6px; }
-    .authors { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 22px; font-size: 18px; }
-    sup { font-size: 0.65em; }
-    .affiliations { margin: 12px 0 6px; color: #525d70; }
-    .contact { margin: 0; color: #525d70; font-size: 14px; }
-    a { color: var(--blue); text-underline-offset: 3px; }
-    a:focus-visible { outline: 3px solid var(--blue); outline-offset: 5px; }
-    .button { display: inline-flex; align-items: center; gap: 10px; margin: 28px 0 48px; padding: 10px 25px; border-radius: 24px; background: #202735; color: white; text-decoration: none; font-weight: 600; }
-    .button:hover { background: var(--blue); }
-    .notice { padding: 32px 16px; border-top: 1px solid #e4e9f1; border-bottom: 1px solid #e4e9f1; }
-    h2 { font-size: 23px; margin: 0 0 8px; }
-    .notice p { color: #596579; margin: 0; }
-    footer { padding-top: 32px; color: #6a7485; font-size: 14px; }
-    @media (max-width: 600px) { main { padding-top: 48px; } .authors { font-size: 16px; } }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="NanoKV: generation-aware high-ratio KV cache compression for autoregressive video generation. Explore paired videos on HY-WorldPlay, LingBot-World 2.0, and Matrix-Game 3.5.">
+<meta name="theme-color" content="#0b0d12">
+<meta property="og:title" content="NanoKV — High-Ratio KV Cache Compression">
+<meta property="og:description" content="Up to 26.09× effective KV compression with a frozen video backbone. Explore the paper, paired videos, and code.">
+<meta property="og:image" content="https://jiacheng-lu03.github.io/NanoKV/assets/teaser.png">
+<meta property="og:type" content="website">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="style.css">
+<title>NanoKV | High-Ratio KV Cache Compression</title>
+<script src="app.js" defer></script>
 </head>
 <body>
-  <main>
-    <p class="name">NanoKV</p>
-    <h1>High-Ratio KV Cache Compression<br>for Autoregressive Video Generation</h1>
-    <div class="authors" aria-label="Authors">
-      <span>Jiacheng Lu<sup>1</sup></span><span>Haoyi Zhu<sup>2</sup></span>
-      <span>Sipei Yi<sup>1</sup></span><span>Enze Xie<sup>2</sup></span>
-      <span>Cheng Zhuo<sup>1</sup></span><span>Yu Li<sup>1,*</sup></span>
-    </div>
-    <p class="affiliations"><sup>1</sup> Zhejiang University &nbsp;&nbsp; <sup>2</sup> NVIDIA</p>
-    <p class="contact">* Corresponding author: <a href="mailto:yu.li.sallylee@gmail.com">Yu Li</a></p>
-    <a class="button" href="https://github.com/jiacheng-lu03/NanoKV">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2.2c-3.3.7-4-1.4-4-1.4-.5-1.4-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1.1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.4 11.4 0 0 1 6 0C17.3 5.1 18.3 5.4 18.3 5.4c.6 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.2c0 .3.2.7.8.6A12 12 0 0 0 12 .3Z"/></svg>
-      GitHub
-    </a>
-    <section class="notice" aria-labelledby="coming-soon">
-      <h2 id="coming-soon">Project page coming soon</h2>
-      <p>Paper, visual results, and implementation details will be added here.</p>
-    </section>
-    <footer>Generation-aware high-ratio KV compression for autoregressive video generation.</footer>
-  </main>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header"><div class="nav-wrap">
+<a class="wordmark" href="#"><span class="mark" aria-hidden="true">N</span>NanoKV</a>
+<nav aria-label="Main navigation"><a href="#demos">Demos</a><a href="#method">Method</a><a href="#results">Results</a><a href="#resources">Resources</a><a class="nav-code" href="https://github.com/jiacheng-lu03/NanoKV">GitHub <span aria-hidden="true">↗</span></a></nav>
+</div></header>
+<main id="main">
+<section class="hero section-wrap" aria-labelledby="title">
+<div class="hero-copy"><p class="eyebrow"><span class="blue-dot"></span> GENERATION-AWARE KV COMPRESSION</p>
+<h1 id="title"><span class="hero-name">Nano<span>KV</span></span><span class="hero-title">High-Ratio KV Cache Compression for Autoregressive Video Generation</span></h1>
+<p class="hero-description">Preserve how compressed history shapes generation.<br>Keep the video backbone frozen.</p>
+<div class="authors"><span>Jiacheng Lu<sup>1</sup></span><span>Haoyi Zhu<sup>2</sup></span><span>Sipei Yi<sup>1</sup></span><span>Enze Xie<sup>2</sup></span><span>Cheng Zhuo<sup>1</sup></span><span>Yu Li<sup>1,*</sup></span></div>
+<p class="affiliations"><sup>1</sup> Zhejiang University <span><sup>2</sup> NVIDIA</span><br><small>* Corresponding author</small></p>
+<div class="hero-links"><a class="button primary" href="assets/NanoKV.pdf">Read the paper <span aria-hidden="true">↗</span></a><a class="button" href="https://github.com/jiacheng-lu03/NanoKV">Code <span aria-hidden="true">↗</span></a><a class="button text-button" href="#demos">Explore videos <span aria-hidden="true">↓</span></a></div>
+</div>
+<div class="hero-reel" aria-label="NanoKV generation previews">
+<figure class="reel-main"><video muted loop playsinline preload="none" poster="assets/videos/hy-teaser.jpg" data-preview="assets/videos/hy-teaser-nanokv.mp4" aria-label="NanoKV mountain panorama on HY-WorldPlay"></video><figcaption><span>HY-WorldPlay</span><b>26.09× <small>KV compression</small></b></figcaption></figure>
+<div class="reel-bottom">
+<figure><video muted loop playsinline preload="none" poster="assets/videos/lingbot-teaser.jpg" data-preview="assets/videos/lingbot-teaser-nanokv.mp4" aria-label="NanoKV coast on LingBot"></video><figcaption><span>LingBot-World 2.0</span><b>14.18×</b></figcaption></figure>
+<figure><video muted loop playsinline preload="none" poster="assets/videos/mg-teaser.jpg" data-preview="assets/videos/mg-teaser-nanokv.mp4" aria-label="NanoKV karst lake on Matrix-Game"></video><figcaption><span>Matrix-Game 3.5</span><b>14.26×</b></figcaption></figure>
+</div>
+<div class="reel-footer"><span>Generated with NanoKV · paper teaser scenes</span><button id="ambient-toggle" type="button" aria-pressed="false">Pause previews</button></div>
+</div>
+</section>
+<div class="section-wrap"><div class="headline-stats"><div><strong>26.09<span>×</span></strong><p>Effective KV compression<br><small>HY-WorldPlay · NanoKV</small></p></div><div><strong>35.9<span>%</span></strong><p>Lower peak GPU memory<br><small>HY-WorldPlay · teaser configuration</small></p></div><div><strong>3</strong><p>Video backbones<br><small>One frozen-backbone framework</small></p></div></div></div>
+<section id="demos" class="section-wrap content-section">
+<div class="section-heading"><div><p class="eyebrow">01 / VISUAL RESULTS</p><h2>Less cache.<br><span class="muted">Keep the world in view.</span></h2></div><p>Explore matched rollouts from our evaluation set. Switch backbones, scenes, and reading modes to compare compressed generation with Original.</p></div>
+<div class="model-tabs" role="group" aria-label="Choose video backbone"><button type="button" data-model="hy" aria-pressed="true">HY-WorldPlay</button><button type="button" data-model="lingbot" aria-pressed="false">LingBot-World 2.0</button><button type="button" data-model="mg" aria-pressed="false">Matrix-Game 3.5</button></div>
+<div class="gallery-toolbar"><div id="scene-buttons" class="scene-buttons" role="group" aria-label="Choose scene"></div><div class="mode-toggle" role="group" aria-label="Compressed method"><button type="button" data-mode="nanokv" aria-pressed="true">NanoKV</button><button type="button" data-mode="fast" aria-pressed="false">NanoKV-Fast</button></div></div>
+<div class="compare-stage" id="compare-stage">
+<figure><div class="video-label"><span><i class="legend original"></i>Original</span><span id="original-storage">20.96 GiB KV</span></div><video id="original-video" muted playsinline preload="metadata" aria-label="Original reference video"></video></figure>
+<figure><div class="video-label"><span id="candidate-label"><i class="legend ours"></i>NanoKV</span><span id="candidate-storage">0.80 GiB KV</span></div><video id="candidate-video" muted playsinline preload="metadata" aria-label="Compressed generation video"></video></figure>
+</div>
+<div class="playback-controls"><button type="button" id="play-pair" class="play-button" disabled aria-label="Play both comparison videos">▶ Play comparison</button><label class="sr-only" for="timeline">Video timeline</label><input id="timeline" type="range" min="0" max="1" step="0.01" value="0" disabled><output id="video-time" for="timeline">0:00 / 0:00</output><button type="button" id="restart-pair" aria-label="Restart both videos">↺ Restart</button></div>
+<div class="scene-caption"><div><strong id="scene-title">Alpine panorama</strong><p id="scene-meta">Paper teaser · camera pans left, then right</p></div><div class="compression-callout"><b id="scene-compression">26.09×</b><span>effective KV compression</span></div></div>
+<p class="fine-print" id="video-status" role="status" aria-live="polite">Loading selected scene…</p>
+<p class="fine-print">Selected clips from the paper teaser and appendix, shown at their recorded frame rate. Playback speed does not represent inference speed. Web previews are re-encoded; the aggregate metrics below use the original evaluation outputs.</p>
+<noscript><p>Enable JavaScript for synchronized video comparisons, or <a href="assets/NanoKV.pdf">view the paper's visual results</a>.</p></noscript>
+</section>
+<section id="method" class="method-section"><div class="section-wrap content-section">
+<div class="section-heading"><div><p class="eyebrow">02 / THE METHOD</p><h2>Generation-aware.<br><span class="muted">Role-specific by design.</span></h2></div><p>High-ratio compression is more than reconstructing KV features. NanoKV preserves the downstream effect of compressed history on generation.</p></div>
+<div class="method-explainer"><article><span class="step-index">01</span><h3>A compact representation</h3><p>Shared centers capture common content. Joint head–channel residuals become low-bit coefficients.</p></article><article><span class="step-index">02</span><h3>Different roles. Different objectives.</h3><p><b>Keys:</b> align downstream block outputs.<br><b>Values:</b> fit reconstruction through the deployed quantization path.</p></article><article><span class="step-index">03</span><h3>Choose how to read</h3><p>NanoKV decodes full-dimensional KV. Optional Fast readers construct mixed-dimensional features from the same coefficients.</p></article></div>
+<a class="method-figure" href="assets/method.png" aria-label="Open the full-resolution NanoKV method diagram"><img src="assets/method.png" width="2400" height="1666" loading="lazy" alt="NanoKV overview: compact KV encoding, Key block-output alignment, Value quantization-aware fitting, and optional mixed-dimensional attention"><span>View full resolution ↗</span></a>
+<details class="abstract"><summary>Read the abstract <span aria-hidden="true">+</span></summary><p>Autoregressive video models rely on historical key–value (KV) caches to preserve scene consistency over extended rollouts, making KV storage and repeated attention over history a growing memory and computational bottleneck. Aggressive compression can degrade generation quality, while reconstructing full-dimensional KV leaves attention computation largely unchanged. We introduce NanoKV, a frozen-backbone framework for generation-aware high-ratio KV compression. NanoKV exploits redundancy across tokens and attention heads by storing shared content in cluster centers and encoding joint head–channel residuals into low-bit coefficients. Crucially, NanoKV uses different fitting objectives for Keys and Values according to their distinct roles in attention: Key decoders are optimized to preserve downstream block outputs, whereas Value encoders and decoders are fitted for faithful reconstruction through the deployed quantization path. Building on the same compressed representation, the optional NanoKV-Fast variant reuses the stored coefficients for mixed-dimensional attention, reducing computation without modifying the video backbone. Across three autoregressive video backbones, NanoKV consistently improves the quality–storage trade-off. On HY-WorldPlay, NanoKV achieves 26.09× effective KV compression—nearly twice that of KVTC—while improving PSNR by 1.0 dB. NanoKV-Fast retains 20.53× effective compression and achieves an approximately 1.15× end-to-end speedup over KVTC.</p></details>
+</div></section>
+<section id="results" class="section-wrap content-section">
+<div class="section-heading"><div><p class="eyebrow">03 / MEASURED RESULTS</p><h2>Compression first.<br><span class="muted">Efficiency, when you need it.</span></h2></div><p>400 videos per configuration. Matched inputs and generation settings within each backbone. Nominal 32× coefficient compression.</p></div>
+<label class="result-select">Backbone <select id="results-model"><option value="hy">HY-WorldPlay</option><option value="lingbot">LingBot-World 2.0</option><option value="mg">Matrix-Game 3.5</option></select></label>
+<div class="results-layout"><div class="storage-chart"><h3>Total KV storage <span>GiB · lower is better</span></h3><div id="storage-bars"></div><p>Effective compression includes method-specific storage overhead.</p></div><div class="table-wrap"><table><caption id="results-caption">HY-WorldPlay · main-table results</caption><thead><tr><th scope="col">Method</th><th scope="col">PSNR ↑<small>dB</small></th><th scope="col">KV compression ↑<small>effective</small></th><th scope="col">E2E speedup ↑<small>vs. Original</small></th></tr></thead><tbody id="results-body"></tbody></table></div></div>
+<div class="fast-note"><span class="fast-symbol" aria-hidden="true">↗</span><p><b id="attention-saving">37.93% less historical-attention computation</b><br>Fast reduces attention arithmetic. End-to-end gains depend on attention's runtime share and codec/reader overhead; the LingBot configuration is slightly slower than Original.</p><a href="https://github.com/jiacheng-lu03/NanoKV/blob/main/docs/RESULTS.md">Full results ↗</a></div>
+<p class="fine-print">PSNR compares each compressed output with its matched Original rollout. End-to-end speedup is Original latency divided by method latency, measured on a single NVIDIA A100.</p>
+</section>
+<section id="resources" class="resources-section"><div class="section-wrap content-section"><p class="eyebrow">04 / REPRODUCE & BUILD</p><div class="section-heading"><h2>Start with your backbone.</h2><p>Data collection, codec fitting, optional Fast reader fitting, and inference—all with a frozen generator.</p></div>
+<div class="resource-list"><article><span>01</span><h3>HY-WorldPlay</h3><a href="https://github.com/jiacheng-lu03/NanoKV/blob/main/train/hy.md">Train ↗</a><a href="https://github.com/jiacheng-lu03/NanoKV/blob/main/infer/README.md#hy-worldplay">Generate ↗</a></article><article><span>02</span><h3>LingBot-World 2.0</h3><a href="https://github.com/jiacheng-lu03/NanoKV/blob/main/train/lingbot.md">Train ↗</a><a href="https://github.com/jiacheng-lu03/NanoKV/blob/main/infer/README.md#lingbot-world-20">Generate ↗</a></article><article><span>03</span><h3>Matrix-Game 3.5</h3><a href="https://github.com/jiacheng-lu03/NanoKV/blob/main/train/mg.md">Train ↗</a><a href="https://github.com/jiacheng-lu03/NanoKV/blob/main/infer/README.md#matrix-game-35">Generate ↗</a></article></div>
+<p class="resource-footnote"><a href="https://github.com/jiacheng-lu03/NanoKV/blob/main/docs/SETUP.md">Environment setup ↗</a><span>Codec and reader checkpoints are being prepared for Hugging Face.</span></p>
+<div class="citation-heading"><h3>Citation</h3><button type="button" id="copy-citation">Copy BibTeX</button></div><pre tabindex="0"><code id="citation-text">@misc{lu2026nanokv,
+  title={NanoKV: High-Ratio KV Cache Compression for Autoregressive Video Generation},
+  author={Jiacheng Lu and Haoyi Zhu and Sipei Yi and Enze Xie and Cheng Zhuo and Yu Li},
+  year={2026},
+  url={https://github.com/jiacheng-lu03/NanoKV}
+}</code></pre><p class="sr-only" id="copy-status" role="status"></p>
+</div></section>
+</main>
+<footer class="section-wrap"><a class="wordmark" href="#">NanoKV</a><p>Generation-aware high-ratio KV compression.</p><div><a href="https://github.com/jiacheng-lu03/NanoKV/blob/main/LICENSING.md">Licenses</a><a href="mailto:yu.li.sallylee@gmail.com">Contact</a><a href="assets/scenes.json">Video provenance</a></div></footer>
 </body>
 </html>
