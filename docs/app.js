@@ -17,32 +17,7 @@ function showResults(model) {
 $('results-model').addEventListener('change', e => showResults(e.target.value));
 showResults('hy');
 
-// Ambient previews load only when visible, and honor reduced-motion preferences.
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-let ambientPaused = reducedMotion.matches;
-const previews = [...document.querySelectorAll('[data-preview]')];
-function updateAmbientButton() {
-  $('ambient-toggle').textContent = ambientPaused ? 'Play previews' : 'Pause previews';
-  $('ambient-toggle').setAttribute('aria-pressed', String(ambientPaused));
-}
-function startPreview(video) {
-  if (!video.src) video.src = video.dataset.preview;
-  video.play().catch(() => {});
-}
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(({target, isIntersecting}) => {
-    target.dataset.visible = String(isIntersecting);
-    if (isIntersecting && !ambientPaused && !document.hidden) startPreview(target);
-    else target.pause();
-  });
-}, {threshold: .1});
-previews.forEach(v => observer.observe(v));
-$('ambient-toggle').addEventListener('click', () => {
-  ambientPaused = !ambientPaused;
-  previews.forEach(v => ambientPaused ? v.pause() : v.dataset.visible === 'true' && startPreview(v));
-  updateAmbientButton();
-});
-updateAmbientButton();
 
 // Each visible row plays its two videos together, following the showcase layout.
 const comparisons = [...document.querySelectorAll('[data-pair]')].map(row => {
@@ -65,9 +40,15 @@ const comparisons = [...document.querySelectorAll('[data-pair]')].map(row => {
         v.addEventListener('error', reject, {once:true});
       })));
       if (token !== state.token || state.paused || !state.visible || document.hidden) return;
-      videos[1].currentTime = videos[0].currentTime;
+      // Seek both paused videos before releasing them together.
+      const time = Math.min(...videos.map(v=>v.currentTime));
+      await Promise.all(videos.map(v=>new Promise(resolve=>{
+        if(Math.abs(v.currentTime-time)<.001 && !v.seeking){resolve();return;}
+        v.addEventListener('seeked',resolve,{once:true});v.currentTime=time;
+      })));
+      if(token!==state.token || state.paused || !state.visible || document.hidden)return;
       await Promise.all(videos.map(v => v.play()));
-      if (token !== state.token || state.paused || !state.visible || document.hidden) videos.forEach(v => v.pause());
+      if (state.paused || !state.visible || document.hidden) videos.forEach(v => v.pause());
       status.textContent = '';
     } catch {
       if (token !== state.token) return;
@@ -75,9 +56,14 @@ const comparisons = [...document.querySelectorAll('[data-pair]')].map(row => {
       status.textContent='Press Play videos to retry playback.';
     }
   }
-  videos[0].addEventListener('timeupdate', () => {
-    if (!videos[0].paused && !videos.some(v => v.seeking) && Math.abs(videos[0].currentTime-videos[1].currentTime)>.12) videos[1].currentTime=videos[0].currentTime;
-  });
+  function syncFrames(){
+    if(!state.paused && state.visible && !videos.some(v=>v.paused) &&
+      (videos.some(v=>v.readyState<3 || v.seeking) || Math.abs(videos[0].currentTime-videos[1].currentTime)>1/30)){
+      stop();play();
+    }
+    requestAnimationFrame(syncFrames);
+  }
+  requestAnimationFrame(syncFrames);
   videos.forEach(v => {
     v.addEventListener('ended', () => {stop();videos.forEach(video=>video.currentTime=0);play();});
   });
@@ -93,8 +79,8 @@ const comparisonObserver = new IntersectionObserver(entries => {
 }, {threshold:.05});
 comparisons.forEach(s=>comparisonObserver.observe(s.row));
 document.addEventListener('visibilitychange',()=>{
-  if(document.hidden){comparisons.forEach(s=>s.stop());previews.forEach(v=>v.pause());}
-  else{comparisons.filter(s=>s.visible).forEach(s=>s.play());if(!ambientPaused)previews.filter(v=>v.dataset.visible==='true').forEach(startPreview);}
+  if(document.hidden){comparisons.forEach(s=>s.stop());}
+  else{comparisons.filter(s=>s.visible).forEach(s=>s.play());}
 });
 
 $('copy-citation').addEventListener('click', async () => {
