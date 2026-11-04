@@ -57,6 +57,10 @@ const comparisons = [...document.querySelectorAll('[data-pair]')].map(row => {
     }
   }
   function syncFrames(){
+    const end=Math.min(...videos.map(v=>v.duration));
+    if(!state.paused && state.visible && !videos.some(v=>v.paused || v.seeking) && Number.isFinite(end) && Math.max(...videos.map(v=>v.currentTime))>=end-.08){
+      stop();videos.forEach(v=>v.currentTime=0);play();
+    }
     if(!state.paused && state.visible && !videos.some(v=>v.paused) &&
       (videos.some(v=>v.readyState<3 || v.seeking) || Math.abs(videos[0].currentTime-videos[1].currentTime)>1/30)){
       stop();play();
