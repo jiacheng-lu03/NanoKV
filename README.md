@@ -9,6 +9,7 @@
 </p>
 
 <p align="center">
+  <a href="https://arxiv.org/abs/2611.06377"><b>📄 Paper</b></a> |
   <a href="https://jiacheng-lu03.github.io/NanoKV/"><b>🌐 Project Page</b></a> |
   <a href="https://huggingface.co/jiacheng1234/NanoKV"><b>🤗 Weights</b></a> |
   <a href="#quick-start"><b>🚀 Quick Start</b></a> |
@@ -39,6 +40,8 @@ The teaser shows example rollouts from the paper. Its PSNR annotations describe
 the displayed examples; dataset-average quality is reported in the results below.
 
 ## 🔥 News
+
+- **2026-11-05:** [NanoKV is available on arXiv](https://arxiv.org/abs/2611.06377).
 
 - **2026-11-04:** Released [NanoKV and NanoKV-Fast checkpoints](https://huggingface.co/jiacheng1234/NanoKV) for all three backbones.
 
@@ -379,7 +382,10 @@ If you use NanoKV in your research, please cite:
   title={NanoKV: High-Ratio KV Cache Compression for Autoregressive Video Generation},
   author={Jiacheng Lu and Haoyi Zhu and Sipei Yi and Enze Xie and Cheng Zhuo and Yu Li},
   year={2026},
-  url={https://github.com/jiacheng-lu03/NanoKV}
+  eprint={2611.06377},
+  archivePrefix={arXiv},
+  primaryClass={cs.CV},
+  url={https://arxiv.org/abs/2611.06377}
 }
 ```
 
